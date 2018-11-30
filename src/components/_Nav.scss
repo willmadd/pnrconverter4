@@ -1,0 +1,125 @@
+#horizonatalnavbar{
+  width: 100%;
+  height: 40px;
+  background-color: #37392E;
+  display: flex;
+  justify-content: space-around;
+  align-items:stretch;
+  color:#EEE5E5;
+}
+
+.navmenuitem{
+  /* float:left;  height:40px; */
+  line-height: 30px;
+  font-size:12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-grow: 1;
+  border-bottom: 3px solid #37392E;
+  /* background-color: blue; */
+}
+
+.navmenuitem a{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+a {
+  color: inherit;
+  text-decoration: inherit;
+
+}
+
+.navmenuitem a img{
+  background-color: white;
+  margin-right:4px;
+  transition: 0.5s
+}
+
+#horizonatalnavbar:hover .navmenuitem #homeImage, #horizonatalnavbar:hover .navmenuitem #aboutUsImage {
+  background-color: #28AFB0;
+  transition: 0.5s;
+}
+
+
+#horizonatalnavbar:hover .navmenuitem #apiImage, #horizonatalnavbar:hover .navmenuitem #blogImage {
+  background-color: #28AFB0;
+  transition: 0.5s;
+}
+
+#horizonatalnavbar:hover .navmenuitem #howtoImage, #horizonatalnavbar:hover .navmenuitem #languageImage {
+  background-color: #28AFB0;
+  transition: 0.5s;
+}
+
+#horizonatalnavbar:hover .navmenuitem #suggestionImage {
+  background-color: #28AFB0;
+  transition: 0.5s;
+}
+
+.navmenuitem:hover{
+   /* text-decoration: underline; */
+   transition: 0.2s;
+   border-bottom: 3px solid #4b1da1;
+   
+
+ }
+
+
+
+ul{
+  padding:0px;
+  margin: 0px;
+}
+
+
+li {
+  display: block;
+  transition-duration: 0.5s;
+ }
+ 
+ li:hover {
+   cursor: pointer;
+ }
+ 
+ul li{
+  position: relative;;
+}
+
+ ul li ul {
+   top:23px;
+   visibility: hidden;
+   opacity: 0;
+   position: absolute;
+   transition: all 0.5s ease;
+   margin-top: 1rem;
+   left: 0;
+   display: none;
+   z-index: 500;
+   background-color: #19647E;
+   /* padding: 0px 10px; */
+   width: 100%;
+ }
+ 
+ ul li:hover > ul,
+ ul li ul:hover {
+   visibility: visible;
+   opacity: 1;
+   display: block;
+ }
+ 
+ ul li ul li {
+   clear: both;
+   width: 100%;
+ }
+
+ ul li ul li:hover{
+  background-color: #28AFB0;
+ }
+
+ .langImage{
+   background-color: #ec9a29;
+ }

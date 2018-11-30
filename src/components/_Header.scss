@@ -1,0 +1,25 @@
+header{
+  min-height: 60px;
+  line-height: 36px;
+  padding: 10px;
+  color: #EEE5E5;
+/* display: inline; */
+  background-color: #4b1da1;;
+  background-image: url(/images/cloud.svg), url(/images/sun.svg);
+  background-repeat: no-repeat;
+  display: flex;
+  background-position: left, right;
+align-items: baseline;
+h1,h3{
+  margin:0px;
+}
+}
+
+header h1{
+  margin-right: 10px;
+}
+
+#headerlogo{
+  /* min-height: 80%; */
+  max-height: 40px;
+}

@@ -1,0 +1,64 @@
+@import './components/Header.scss';
+@import './components/FormEntry.scss';
+@import './components/FormOptions.scss';
+@import './components/AdvertisingBox.scss';
+@import './components/Blurb.scss';
+@import './components/Nav.scss';
+@import './components/ResultsBox.scss';
+
+.body{
+  width: 100%;
+  height:100vh;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}
+
+.body::after{
+  background-image: url(/images/pnrconverterbackground.svg);
+  background-size: cover;
+  // background-color: aqua;
+  content: "";
+  opacity: 0.6;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: -1;
+  filter: blur(0px);
+}
+
+.container{
+  width:90%;
+padding-top:40px;
+  // background-color: antiquewhite;
+  margin-left:auto;
+  margin-right:auto;
+  form{
+    width:100%;
+    // background-color: burlywood;
+    display: flex;
+  }
+}
+
+.floatLeft{
+  flex:5;
+  display: flex;
+  flex-direction: column;
+}
+
+.floatRight{
+  flex:1;
+}
+
+.App {
+  text-align: center;
+}
+
+
+.shadow{
+  -webkit-box-shadow: 10px 10px 26px -13px rgba(0,0,0,0.75);
+-moz-box-shadow: 10px 10px 26px -13px rgba(0,0,0,0.75);
+box-shadow: 10px 10px 26px -13px rgba(0,0,0,0.75);
+}
