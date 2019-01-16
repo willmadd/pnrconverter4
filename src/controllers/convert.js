@@ -1,4 +1,4 @@
-import * as api from "../db/models";
+import * as api from "../db/sqlqueries";
 const spacetime = require("spacetime");
 // import spacetime from '/spa'
 
@@ -13,67 +13,42 @@ export const convertItinerary = (flightInput, options) => {
   let arrTimeDate;
   let flightNo;
 
+  console.log(flightInput);
+
   let newInfo = flightInput.map((flightLine, index) => {
     const depDest = getDepartureDestination(flightLine);
     const arrDest = getArrivalDestination(flightLine);
-    const airline = getAirlineData(flightLine);
-    let depAirport = getAirportData(depDest);
-    let arrAirport = getAirportData(arrDest);
+    const airline = getAirlineData(flightLine, depDest, arrDest);
 
-    let depDate = getDepartureDate(flightLine)
-    let arrDate = getArrivalDate(flightLine)
-    let depTime = getDepartureTime(flightLine)
-    let arrTime = getArrivalTime(flightLine)
+    let depDate = getDepartureDate(flightLine);
+    let arrDate = getArrivalDate(flightLine);
+    let depTime = getDepartureTime(flightLine);
+    let arrTime = getArrivalTime(flightLine);
+
+    console.log(airline);
+
+    return {
+      airline,
+    };
+
     // i'm here need to sort out the format for getnew flight duration
-    let flightDuration = newGetFlightDuration = (
-      departureString,
-      departureTimeZone,
-      arrivalString,
-      arrivalTimeZone)
+    // let flightDuration = newGetFlightDuration(
+    //   departureString,
+    //   departureTimeZone,
+    //   arrivalString,
+    //   arrivalTimeZone)
 
- depTimeDate = formatDate(depDate, depTime, flightLine)
-arrTimeDate = formatDate(arrDate, arrTime, flightLine)
-
-let staticInfo = {
-  flightNo:getFlightNo(flightLine),
-  depTimeDate,
-  arrTimeDate
-}
-    
-    return { airline, depAirport, arrAirport, staticInfo };
+    // depTimeDate = formatDate(depDate, depTime, flightLine);
+    // arrTimeDate = formatDate(arrDate, arrTime, flightLine);
   });
 
   let promises = [];
   for (let item of newInfo) {
     promises.push(item.airline);
-    promises.push(item.depAirport);
-    promises.push(item.arrAirport);
-    promises.push(item.staticInfo);
   }
 
   return Promise.all(promises).then(result => {
-    console.log(result);
-    let outputArray = [];
-    for (let i = 0 ; i<result.length ; i +=4){
-      let flightLineObject = {
-        airline:result[i],
-        dep:{
-          airport: result[i+1],
-          depTimeDate
-        },
-        arr:{
-          airport: result[i+2],
-          arrTimeDate
-        },
-        static: result[i+3]
-      }
-      outputArray.push(flightLineObject);
-    }
-
-
-    console.log(outputArray);
-    
-    return outputArray
+    return result;
   });
 };
 
@@ -82,89 +57,20 @@ const getFlightNo = flightInfo => {
   return Number(flightInfo.slice(2).match(regex)[0]).toString();
 };
 
-const getAirportData = airportCode => {
-  let localAirportData = localStorage["airportData"];
-  if (localAirportData) {
-    let localStorageObject = JSON.parse(localStorage.airportData);
-    if (localStorageObject[airportCode]) {
-      return localStorageObject[airportCode];
-    } else {
-      return api.getAirport(airportCode).then(res=>{
-        const airportObject = Object.values(res)[0];
-        let updatedLocalStorage = {
-          ...localStorageObject,
-          [airportCode]: airportObject
-        };
-        localStorage["airportData"] = JSON.stringify(updatedLocalStorage);
-        return airportObject;
-      })
-    }
-  } else {
-    console.log("no airport local storage detected");
-    let newAirportObject = {};
-    return api.getAirport(airportCode).then(res => {
-      const airportObject = Object.values(res)[0];
-      console.log(airportObject);
-      newAirportObject[airportCode] = airportObject;
-      localStorage["airportData"] = JSON.stringify(newAirportObject);
-      return newAirportObject;
-    });
-  }
-
-  
+const getAirportData = (depAirport, arrAirport) => {
+  return api.getAirport(depAirport, arrAirport).then(results => {
+    console.log(results);
+    return results;
+  }); /////////
 };
 
 //this function checks the existance of the airlin data in the local storage - if it's not here then it queries the databsae and writes to lcoal storage
-const getAirlineData = flightInfo => {
-  const starttime = new Date().getTime();
-  const bookingClass = getBookingClass(flightInfo).toLowerCase();
+const getAirlineData = (flightInfo, depDest, arrDest) => {
   const iatacode = flightInfo.slice(0, 2);
-
-  let localAirlineData = localStorage["airlineData"];
-
-  if (localAirlineData) {
-    let localStorageObject = JSON.parse(localStorage.airlineData);
-    if (localStorageObject[iatacode]) {
-      console.log(`${iatacode} found in local storage`);
-      const result = localStorageObject[iatacode];
-      const endtime = new Date().getTime();
-      console.log(endtime - starttime);
-      return formatAirlineData(result, bookingClass);
-    } else {
-      console.log(`${iatacode} not found in local storage - query database`);
-      return api.getAirline(iatacode).then(res => {
-        const airlineObject = Object.values(res)[0];
-        let updatedLocalStorage = {
-          ...localStorageObject,
-          [iatacode]: airlineObject
-        };
-        localStorage["airlineData"] = JSON.stringify(updatedLocalStorage);
-        const endtime = new Date().getTime();
-        console.log(endtime - starttime);
-        return formatAirlineData(airlineObject, bookingClass);
-      });
-    }
-  } else {
-    console.log("no airline local storage detected");
-    let newAirlineObject = {};
-    return api.getAirline(iatacode).then(res => {
-      const airlineObject = Object.values(res)[0];
-      newAirlineObject[iatacode] = airlineObject;
-      localStorage["airlineData"] = JSON.stringify(newAirlineObject);
-      const endtime = new Date().getTime();
-      console.log(endtime - starttime);
-      return formatAirlineData(airlineObject, bookingClass);
-    });
-  }
-};
-
-const formatAirlineData = (airlineObject, bookingClass) => {
-  return {
-    airlineName: airlineObject.airlinename,
-    iatacode: airlineObject.iatacode,
-    bookingClass,
-    cabin: airlineObject[bookingClass]
-  };
+  return api.queryDatabase(depDest, arrDest, iatacode, flightInfo).then(results => {
+    console.log(results);
+    return results;
+  }); /////////
 };
 
 const getBookingClass = flightInfo => {
@@ -236,8 +142,6 @@ const getArrivalDestination = flightInfo => {
 
   return flightInfo.match(regex)[0].split(" ")[1];
 };
-
-
 
 const getDepartureDate = flightInfo => {
   if (flightInfo === undefined) {
@@ -332,72 +236,78 @@ const formatDate = (date, time, flightLine) => {
 
   if (time.length === 4) {
     formattedDate =
-    date.slice(2) +
-    " " +
-    date.slice(0, 2) +
-    ", " +
-    new Date().getFullYear().toString() +
-    " " +
-    time.slice(0, 2) +
-    ":" +
-    time.slice(2) +
-    ":00";
+      date.slice(2) +
+      " " +
+      date.slice(0, 2) +
+      ", " +
+      new Date().getFullYear().toString() +
+      " " +
+      time.slice(0, 2) +
+      ":" +
+      time.slice(2) +
+      ":00";
     formattedDate = formattedDate.replace("SEP", "SEPT");
     s = spacetime(formattedDate);
   } else {
     formattedDate =
-    date.slice(2) +
-    " " +
-    date.slice(0, 2) +
-    ", " +
-    new Date().getFullYear().toString();
-    
+      date.slice(2) +
+      " " +
+      date.slice(0, 2) +
+      ", " +
+      new Date().getFullYear().toString();
+
     formattedDate = formattedDate.replace("SEP", "SEPT");
     s = spacetime(formattedDate);
     s.time(time);
   }
-  
+
   let now = spacetime(new Date());
-  
+
   if (s.isBefore(now)) {
     s.add(1, "year");
   }
-  
+
   if (
-    /\#[0-9]{4}\s/.test(flightLine) | /[0-9]{3,4}(A|N|P)\+1/.test(flightLine) | /[0-9]{3,4}(A|N|P)\#1/.test(flightLine) | /#[0-9]{3,4}/.test(flightLine)
-    ) {
-      s.add(1, "day");
-    } else if (
-      /\*[0-9]{4}\s/.test(flightLine) | /[0-9]{3,4}(A|N|P)\+2/.test(flightLine)| /\*[0-9]{3,4}/.test(flightLine)
-      ) {
-        s.add(2, "day");
-      } else if (
-        /\-[0-9]{4}\s/.test(flightLine) | /[0-9]{3,4}(A|N|P)\-1/.test(flightLine)
-        ) {
-          s.subtract(1, "day");
-        }
-        
-        let newFDate = s.format("iso");
-        let newNiceDate =
-        s.format("day-short") +
-        " " +
-        s.format("date-ordinal") +
-        " " +
-        s.format("month-short");
-        let twelveHoursTime = s.format("time-12h");
-        let twentyFourHoursTime = s.format("time-h24");
-        if (twentyFourHoursTime.length === 4){
-          twentyFourHoursTime = "0"+twentyFourHoursTime
-        }
-        let spaceTime =
-        s.format("month-short") +
+    /\#[0-9]{4}\s/.test(flightLine) |
+    /[0-9]{3,4}(A|N|P)\+1/.test(flightLine) |
+    /[0-9]{3,4}(A|N|P)\#1/.test(flightLine) |
+    /#[0-9]{3,4}/.test(flightLine)
+  ) {
+    s.add(1, "day");
+  } else if (
+    /\*[0-9]{4}\s/.test(flightLine) |
+    /[0-9]{3,4}(A|N|P)\+2/.test(flightLine) |
+    /\*[0-9]{3,4}/.test(flightLine)
+  ) {
+    s.add(2, "day");
+  } else if (
+    /\-[0-9]{4}\s/.test(flightLine) | /[0-9]{3,4}(A|N|P)\-1/.test(flightLine)
+  ) {
+    s.subtract(1, "day");
+  }
+
+  let newFDate = s.format("iso");
+  let newNiceDate =
+    s.format("day-short") +
+    " " +
+    s.format("date-ordinal") +
+    " " +
+    s.format("month-short");
+  let twelveHoursTime = s.format("time-12h");
+  let twentyFourHoursTime = s.format("time-h24");
+  if (twentyFourHoursTime.length === 4) {
+    twentyFourHoursTime = "0" + twentyFourHoursTime;
+  }
+  let spaceTime =
+    s.format("month-short") +
     " " +
     s.format("date") +
     ", " +
     s.format("year") +
     " " +
     s.format("time-h24");
-    let china=s.format("Y")+"年"+s.format("m")+"月"+s.format("d")+"日";
+  let china =
+    s.format("Y") + "年" + s.format("m") + "月" + s.format("d") + "日";
   return {
     full: newFDate,
     nice: newNiceDate,
@@ -407,8 +317,6 @@ const formatDate = (date, time, flightLine) => {
     china
   };
 };
-
-
 
 const newGetFlightDuration = (
   departureString,

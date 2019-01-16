@@ -7,7 +7,7 @@ import AdvertisingBox from "./components/AdvertisingBox";
 import Blurb from "./components/Blurb";
 import Nav from "./components/Nav";
 import * as func from "./controllers/convert";
-import ResultsBox from "./components/ResultsBox";
+import ResultsBoxThreeLines from "./components/ResultsBox";
 import Loader from "./components/Loader";
 
 class App extends Component {
@@ -18,32 +18,38 @@ class App extends Component {
     options: {
       airlineName: true,
       logo: true,
-      cabin: "off",
+      cabinradio: "off",
       transit: true,
       twelveClock: true,
       operatedBy: false,
-      distance: "off"
+      distanceradio: "off",
+      duration: true
     },
     input: "",
-    processedData:"",
-    loading:false,
+    processedData: "",
+    loading: false
   };
 
   changeOptions = event => {
     const { options } = this.state;
     const { name, type } = event.target;
+    let newOptions;
     if (type === "radio") {
-      console.log(event.target);
+      newOptions = {
+        ...options,
+        [name]: event.target.value
+      };
     } else {
-      let newOptions = {
+      newOptions = {
         ...options,
         [name]: !options[name]
       };
-      this.setState({
-        options: newOptions
-      });
     }
+    this.setState({
+      options: newOptions
+    });
   };
+
   setFormat = event => {
     const { value } = event.target;
     this.setState({
@@ -61,27 +67,33 @@ class App extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { input, options } = this.state;
-this.setState({
-  loading:true,
-}, ()=>{
-  let processedData = func.convertItinerary(input, options);
-  processedData.then(res=>{
-    this.setState({
-      input: "",
-      processedData:res,
-      loading:false,
-    });
-  })
-})
-
-
-
-
+    this.setState(
+      {
+        loading: true
+      },
+      () => {
+        let processedData = func.convertItinerary(input, options);
+        processedData.then(res => {
+          // console.log(res);
+          this.setState({
+            input: "",
+            processedData: res,
+            loading: false
+          });
+        });
+      }
+    );
   };
 
   render() {
-    const { language, options, format, input, processedData, loading } = this.state;
-    console.log(processedData)
+    const {
+      language,
+      options,
+      format,
+      input,
+      processedData,
+      loading
+    } = this.state;
     return (
       <div className="App">
         <Header />
@@ -94,7 +106,9 @@ this.setState({
                 <AdvertisingBox />
                 {loading && <Loader />}
                 {language && !processedData && <Blurb language={language} />}
-                {processedData && <ResultsBox results = {processedData} options={options}/>}
+                {processedData && format!=="tableoutput"? (
+                  <ResultsBoxThreeLines results={processedData} options={options} format={format}/>
+                ):""}
               </div>
 
               <div className="floatRight">
