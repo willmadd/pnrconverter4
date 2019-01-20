@@ -1,45 +1,35 @@
 import * as api from "../db/sqlqueries";
-const spacetime = require("spacetime");
-// import spacetime from '/spa'
 
 export const convertItinerary = (flightInput, options) => {
   //split lines into array
   flightInput = createArray(flightInput);
   //filter out non valid flight lines
   flightInput = filterFlightInput(flightInput);
-  //create object
-
-  let depTimeDate;
-  let arrTimeDate;
-  let flightNo;
 
   console.log(flightInput);
+
+  flightInput.forEach((line, index) => {
+    if (/OPERATED BY\s/.test(line)) {
+      if (/OPERATED BY\s/.test(flightInput[index + 1])) {
+        // console.log("detected....");
+        flightInput.splice(index + 1, 1);
+      }
+
+      flightInput[index - 1] = flightInput[index - 1] + " " + line;
+      flightInput.splice(index, 1);
+    }
+  });
 
   let newInfo = flightInput.map((flightLine, index) => {
     const depDest = getDepartureDestination(flightLine);
     const arrDest = getArrivalDestination(flightLine);
     const airline = getAirlineData(flightLine, depDest, arrDest);
 
-    let depDate = getDepartureDate(flightLine);
-    let arrDate = getArrivalDate(flightLine);
-    let depTime = getDepartureTime(flightLine);
-    let arrTime = getArrivalTime(flightLine);
-
     console.log(airline);
 
     return {
-      airline,
+      airline
     };
-
-    // i'm here need to sort out the format for getnew flight duration
-    // let flightDuration = newGetFlightDuration(
-    //   departureString,
-    //   departureTimeZone,
-    //   arrivalString,
-    //   arrivalTimeZone)
-
-    // depTimeDate = formatDate(depDate, depTime, flightLine);
-    // arrTimeDate = formatDate(arrDate, arrTime, flightLine);
   });
 
   let promises = [];
@@ -52,25 +42,23 @@ export const convertItinerary = (flightInput, options) => {
   });
 };
 
-const getFlightNo = flightInfo => {
-  let regex = /\d+/g;
-  return Number(flightInfo.slice(2).match(regex)[0]).toString();
-};
-
-const getAirportData = (depAirport, arrAirport) => {
-  return api.getAirport(depAirport, arrAirport).then(results => {
-    console.log(results);
-    return results;
-  }); /////////
-};
-
-//this function checks the existance of the airlin data in the local storage - if it's not here then it queries the databsae and writes to lcoal storage
 const getAirlineData = (flightInfo, depDest, arrDest) => {
   const iatacode = flightInfo.slice(0, 2);
-  return api.queryDatabase(depDest, arrDest, iatacode, flightInfo).then(results => {
-    console.log(results);
-    return results;
-  }); /////////
+  let opBy;
+  let regex = /OPERATED\sBY\s(.*)/;
+  if (flightInfo.match(regex)) {
+    opBy = "(" + flightInfo.match(regex)[0] + ")";
+  } else {
+    opBy = "";
+  }
+
+  return api
+    .queryDatabase(depDest, arrDest, iatacode, flightInfo)
+    .then(results => {
+      console.log(results);
+      results.data.flt.operatedBy = opBy;
+      return results;
+    }); /////////
 };
 
 const getBookingClass = flightInfo => {
@@ -103,10 +91,10 @@ const filterFlightInput = flightInput => {
   });
   flightInput = flightInput.filter(line => {
     return (
-      line.length > 20 &&
-      getBookingClass(line) !== undefined &&
-      getDepartureDate(line) !== undefined
-      // || /OPERATED BY\s/.test(line)
+      (line.length > 20 &&
+        getBookingClass(line) !== undefined &&
+        getDepartureDate(line) !== undefined) ||
+      /OPERATED BY\s/.test(line)
     );
   });
   return flightInput;
@@ -151,181 +139,4 @@ const getDepartureDate = flightInfo => {
   let date = flightInfo.match(regex)[0].trim();
   // console.log(date);
   return date;
-};
-
-const getArrivalDate = flightInfo => {
-  let regex = /[0-9]+((JAN)|(FEB)|(MAR)|(APR)|(MAY)|(JUN)|(JUL)|(AUG)|(SEP)|(OCT)|(NOV)|(DEC))/g;
-  if (flightInfo.match(regex).length === 2) {
-    return flightInfo.match(regex)[1].trim();
-  } else if (flightInfo.match(regex).length === 1)
-    return flightInfo.match(regex)[0].trim();
-};
-
-const getDepartureTime = flightInfo => {
-  if (flightInfo === undefined) {
-    return;
-  }
-
-  let regex = /[0-9]{3,4}(A|P|N)|(\b[0-9]{4}\b)|(\b[0-9]{2}:[0-9]{2}\b)/g;
-  let usFormattedTimes = flightInfo.slice(10).match(regex);
-
-  if (
-    !/[APN]/.test(
-      flightInfo
-        .slice(10)
-        .match(regex)
-        .join("")
-    )
-  ) {
-    return flightInfo.slice(10).match(regex)[0];
-  }
-
-  let forTime = usFormattedTimes.map(time => {
-    return (
-      time.slice(0, -3) +
-      ":" +
-      time
-        .slice(-3)
-        .replace("P", "pm")
-        .replace("A", "am")
-    );
-  });
-
-  return forTime[0];
-};
-
-const getArrivalTime = flightInfo => {
-  if (flightInfo === undefined) {
-    return;
-  }
-  let regex = /[0-9]{3,4}(A|P|N)|(\b[0-9]{4}\b)|(\b[0-9]{2}:[0-9]{2}\b)/g;
-  let usFormattedTimes = flightInfo.slice(10).match(regex);
-
-  if (
-    !/[APN]/.test(
-      flightInfo
-        .slice(10)
-        .match(regex)
-        .join("")
-    )
-  ) {
-    return flightInfo.slice(10).match(regex)[1];
-  }
-
-  let forTime = usFormattedTimes.map(time => {
-    return (
-      time.slice(0, -3) +
-      ":" +
-      time
-        .slice(-3)
-        .replace("P", "pm")
-        .replace("A", "am")
-    );
-  });
-
-  return forTime[1];
-};
-
-const formatDate = (date, time, flightLine) => {
-  if (!time) {
-    return;
-  }
-
-  let formattedDate;
-  let s;
-
-  if (time.length === 4) {
-    formattedDate =
-      date.slice(2) +
-      " " +
-      date.slice(0, 2) +
-      ", " +
-      new Date().getFullYear().toString() +
-      " " +
-      time.slice(0, 2) +
-      ":" +
-      time.slice(2) +
-      ":00";
-    formattedDate = formattedDate.replace("SEP", "SEPT");
-    s = spacetime(formattedDate);
-  } else {
-    formattedDate =
-      date.slice(2) +
-      " " +
-      date.slice(0, 2) +
-      ", " +
-      new Date().getFullYear().toString();
-
-    formattedDate = formattedDate.replace("SEP", "SEPT");
-    s = spacetime(formattedDate);
-    s.time(time);
-  }
-
-  let now = spacetime(new Date());
-
-  if (s.isBefore(now)) {
-    s.add(1, "year");
-  }
-
-  if (
-    /\#[0-9]{4}\s/.test(flightLine) |
-    /[0-9]{3,4}(A|N|P)\+1/.test(flightLine) |
-    /[0-9]{3,4}(A|N|P)\#1/.test(flightLine) |
-    /#[0-9]{3,4}/.test(flightLine)
-  ) {
-    s.add(1, "day");
-  } else if (
-    /\*[0-9]{4}\s/.test(flightLine) |
-    /[0-9]{3,4}(A|N|P)\+2/.test(flightLine) |
-    /\*[0-9]{3,4}/.test(flightLine)
-  ) {
-    s.add(2, "day");
-  } else if (
-    /\-[0-9]{4}\s/.test(flightLine) | /[0-9]{3,4}(A|N|P)\-1/.test(flightLine)
-  ) {
-    s.subtract(1, "day");
-  }
-
-  let newFDate = s.format("iso");
-  let newNiceDate =
-    s.format("day-short") +
-    " " +
-    s.format("date-ordinal") +
-    " " +
-    s.format("month-short");
-  let twelveHoursTime = s.format("time-12h");
-  let twentyFourHoursTime = s.format("time-h24");
-  if (twentyFourHoursTime.length === 4) {
-    twentyFourHoursTime = "0" + twentyFourHoursTime;
-  }
-  let spaceTime =
-    s.format("month-short") +
-    " " +
-    s.format("date") +
-    ", " +
-    s.format("year") +
-    " " +
-    s.format("time-h24");
-  let china =
-    s.format("Y") + "年" + s.format("m") + "月" + s.format("d") + "日";
-  return {
-    full: newFDate,
-    nice: newNiceDate,
-    time12: twelveHoursTime,
-    time24: twentyFourHoursTime,
-    spaceTime: spaceTime,
-    china
-  };
-};
-
-const newGetFlightDuration = (
-  departureString,
-  departureTimeZone,
-  arrivalString,
-  arrivalTimeZone
-) => {
-  let d = spacetime(departureString.spaceTime, departureTimeZone);
-  let e = spacetime(arrivalString.spaceTime, arrivalTimeZone);
-  e.add(1, "second");
-  return { hours: e.since(d).diff.hours, minutes: e.since(d).diff.minutes };
 };

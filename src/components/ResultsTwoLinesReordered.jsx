@@ -1,12 +1,10 @@
 import React from 'react';
 
 const ResultsThreeLinesReordered = (props) => {
-  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay } = props;
+  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay, transitTime } = props;
   return (
     <div>
-      twolines reordered
-                    <p>{`Departing: ${depairportString} at ${depTimeFormatted}`}</p>
-                    <p>{`Arriving: ${arrairportString} at ${arrTimeFormatted}${nextDay}`}</p>
+                    <p>{`Departs: ${depTimeFormatted} from ${depairportString}, Arrives: ${arrairportString} at ${arrTimeFormatted}${nextDay}`}</p>
     </div>
   );
 };

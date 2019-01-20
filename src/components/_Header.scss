@@ -1,25 +1,39 @@
-header{
-  min-height: 60px;
-  line-height: 36px;
+@import "./components/variables.scss";
+
+header {
+  min-height: 40px;
   padding: 10px;
-  color: #EEE5E5;
-/* display: inline; */
-  background-color: #4b1da1;;
-  background-image: url(/images/cloud.svg), url(/images/sun.svg);
-  background-repeat: no-repeat;
+  background-color: $white;
+  align-items: baseline;
   display: flex;
-  background-position: left, right;
-align-items: baseline;
-h1,h3{
-  margin:0px;
-}
+  align-items: center;
+  justify-content: space-around;
+  font-family: $font-condensed;
+  letter-spacing: 0.5px;
+  h1,
+  h3 {
+    margin: 0px;
+  }
+  h1{
+    // margin-left:6%;
+    font-size: 18px;
+    margin-right:20px;
+  }
+  h3{
+    font-size:14px;
+  }
 }
 
-header h1{
+.title-text-holder{
+display: flex;
+align-items: baseline;
+}
+
+header h1 {
   margin-right: 10px;
 }
 
-#headerlogo{
+#headerlogo {
   /* min-height: 80%; */
   max-height: 40px;
 }

@@ -3,22 +3,23 @@ import React, { Component } from "react";
 class Nav extends Component {
   render() {
     return (
-      <ul id="horizonatalnavbar" role="navigation">
-        <li className="navmenuitem">
-          <a href="/">
-            <img src="/images/icons/homeicon.svg" height="18" id="homeImage" alt='home'/>
-            Home
-          </a>
-        </li>
-        <li className="navmenuitem">
-          <a href="/api-introduction">
-            <img src="/images/icons/apiicon.svg" height="18" id="apiImage" alt='api'/>
-            API
-          </a>
-        </li>
+      <div className="subheading">
+ <ul id="horizonatalnavbar" role="navigation">
+         <li className="navmenuitem">
+           <a href="/">
+             <img src="/images/icons/homeicon.svg" height="18" id="homeImage" alt='home'/>
+             Home
+           </a>
+         </li>
+         <li className="navmenuitem">
+           <a href="/api-introduction">
+             <img src="/images/icons/apiicon.svg" height="18" id="apiImage" alt='api'/>
+             API
+           </a>
+         </li>
 
-        <li className="navmenuitem">
-          <a href="/how-it-works">
+         <li className="navmenuitem">
+           <a href="/how-it-works">
             <img
               src="/images/icons/howtoicon.svg"
               height="18"
@@ -118,6 +119,8 @@ class Nav extends Component {
           </ul>
         </li>
       </ul>
+      </div>
+      
     );
   }
 }

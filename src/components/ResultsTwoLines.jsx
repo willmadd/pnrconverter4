@@ -1,11 +1,10 @@
 import React from 'react';
 
 const ResultsTwoLines = (props) => {
-  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay } = props;
+  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay} = props;
   return (
-    <div>two lines
-                    <p>{`Departing: ${depairportString} at ${depTimeFormatted}`}</p>
-                    <p>{`Arriving: ${arrairportString} at ${arrTimeFormatted}${nextDay}`}</p>
+    <div>
+                    <p>{`${depairportString}, to ${arrairportString}, Depart ${depTimeFormatted}, Arrive ${arrTimeFormatted}${nextDay}`}</p>
     </div>
   );
 };

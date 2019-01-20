@@ -13,7 +13,6 @@ class FormOptions extends Component {
       distanceradio
     } = this.props.options;
     const { changeOptions, format, setFormat } = this.props;
-    console.log(this.props.options);
     return (
       <div className="formOptions shadow">
         <h3>Display Options</h3>
@@ -72,7 +71,7 @@ class FormOptions extends Component {
               checked={cabinradio === "className"}
               onChange={e => changeOptions(e)}
             />
-            <label htmlFor="cabinclassName">ClassName</label>
+            <label htmlFor="cabinclassName">Class</label>
 
             <input
               id="cabincabin"

@@ -1,35 +1,20 @@
-import React from "react";
+import React from 'react';
 
-const Header = () => {
+const Footer = () => {
   return (
-    <header>
-      <a href="/">
-        <img
-          src="/images/Pnrconverterlogosvg.svg"
-          id="headerlogo"
-          height="53"
-          width="120"
-          alt="pnrconverter logo"
-        />
-      </a>
-<div className="title-text-holder">
-
-      <h1>PNR Converter </h1>
-      <h3> Converting Itineraries for Galileo, Smartpoint, Worldspan, Amadeus & Sabre GDS</h3>
-</div>
-
-       
-
+    <div className="footer">
+      <h3>© PNR Converter 2019</h3>
       <div className="social-bar">
       <a href="https://twitter.com/pnrconverter?lang=en"><img src="./images/icons/twitter2.png" alt="twitter2" height="36" width="36"/></a>
       <a href="https://www.linkedin.com/in/william-maddicott/"><img src="./images/icons/linkdin.png" alt="linkdin" height="36" width="36"/></a>
       <img src="./images/icons/mail.png" alt="mail" height="36" width="36"/>
       <img src="./images/icons/rss.png" alt="rss" height="36" width="36"/>
       </div>
+      <a href="./privacy">Privacy Policy</a>
+      <a href="./term-and-conditions">Terms of Use</a>
 
-
-    </header>
+    </div>
   );
 };
 
-export default Header;
+export default Footer;

@@ -10,7 +10,6 @@ class AdvertisingBox extends Component {
     // (window.adsbygoogle = window.adsbygoogle || []).push({});
     api.getAdvert()
     .then(res=>{
-      console.log(res.data)
       this.setState({
         advertText:res.data
       })
@@ -18,11 +17,23 @@ class AdvertisingBox extends Component {
 
   }
 
+componentDidUpdate(prevProps, prevState,){
+  if(prevProps !== this.props){
+    api.getAdvert()
+    .then(res=>{
+      this.setState({
+        advertText:res.data
+      })
+    })
+  }
+}
+
+
   render() {
     return (
       <div className="advertisingBox">
-
 {this.state.advertText}
+
 {/* <AdSense.Google
   client='ca-pub-2303157713889417'
   slot='8744366555'

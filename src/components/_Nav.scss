@@ -1,23 +1,38 @@
-#horizonatalnavbar{
+
+.subheading{
   width: 100%;
   height: 40px;
-  background-color: #37392E;
+  background-color: $brand-primary;
   display: flex;
-  justify-content: space-around;
-  align-items:stretch;
-  color:#EEE5E5;
+  justify-content:center;
+  align-items:center;
+  line-height:20px;
+  color:$grey-light;
+  font-family: $font-regular;
+  
+  ul {
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    li {
+      margin-left: 20px;
+    }
+  }
 }
 
 .navmenuitem{
   /* float:left;  height:40px; */
   line-height: 30px;
-  font-size:12px;
+  font-weight: 600;
+font-size: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-grow: 1;
-  border-bottom: 3px solid #37392E;
+  // border-bottom: 3px solid #37392E;
+  text-transform: uppercase;
+  color:$grey-light;
   /* background-color: blue; */
 }
 
