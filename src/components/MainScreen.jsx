@@ -144,7 +144,7 @@ GDPRaccept = () =>{
     } = this.state;
     return (
       <div className="App">
-        <div className="body">
+        <div className="bodyb">
           <div className="container">
             <form onSubmit={this.handleSubmit}>
               <div className="floatLeft">

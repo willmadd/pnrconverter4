@@ -9,7 +9,10 @@ header {
   align-items: center;
   justify-content: space-around;
   font-family: $font-condensed;
-  letter-spacing: 0.5px;
+  // letter-spacing: 0.5px;
+  color: $black;
+  letter-spacing: 1px;
+  font-weight: 600;
   h1,
   h3 {
     margin: 0px;

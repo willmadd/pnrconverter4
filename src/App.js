@@ -16,7 +16,7 @@ import Blog from "./components/Blog";
 class App extends Component {
   render() {
     return (
-      <div>
+      <div className="body">
         <Header />
         <Nav />
         <Switch>
