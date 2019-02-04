@@ -2,7 +2,7 @@
 .subheading{
   width: 100%;
   height: 40px;
-  background-color: $brand-primary;
+  background-color: $brand-red;
   display: flex;
   justify-content:center;
   align-items:center;
@@ -72,14 +72,15 @@ a {
 }
 
 #horizonatalnavbar:hover .navmenuitem #suggestionImage {
-  background-color: #28AFB0;
+  background-color: $brand-primary;
   transition: 0.5s;
 }
 
 .navmenuitem:hover{
    /* text-decoration: underline; */
    transition: 0.2s;
-   border-bottom: 3px solid #4b1da1;
+  //  border-bottom: 3px solid #4b1da1;
+  color:$brand-red-hover;
    
 
  }

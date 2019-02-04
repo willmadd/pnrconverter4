@@ -5,9 +5,11 @@
   // height:200px;
   // background-color: chartreuse;
   position: sticky;
-  padding:40px;
-  background-color: $grey-light;
+  padding:20px;
+  background-color: $black;
   box-sizing: border-box;
+  font-family: $font-regular;
+  color: $grey-light;
   p,a{
     font-size: 12px;
   }

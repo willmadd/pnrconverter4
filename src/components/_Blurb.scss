@@ -10,4 +10,9 @@ color:$black;
   // height: 120px;
   background-color: rgba(255,255,255,0.75);
   border: 4px solid $brand-primary;
+  font-family:$font-regular;
+  padding:20px;
+  p{
+    text-align: left;
+  }
 }

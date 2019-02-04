@@ -13,31 +13,31 @@
 
 .body{
   width: 95%;
-  background-color: #25252a;
+  // background-color: #25252a;
   margin-left:auto;
   margin-right:auto;
   
   -webkit-box-shadow: -1px 10px 48px 0px rgba(0,0,0,0.75);
   -moz-box-shadow: -1px 10px 48px 0px rgba(0,0,0,0.75);
   box-shadow: -1px 10px 48px 0px rgba(0,0,0,0.75);
-
+  // background-size: cover;
 }
 
 .body::after{
-  background-image: url(/images/bwback.jpg);
-  background-size: cover;
+  background-image: url(/images/pnrconverterbackground.svg);
+  background-size:cover;
   content: "";
-  opacity: 0.6;
-  top: 200;
+  opacity: 0.4;
+  top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   position: absolute;
   z-index: -1;
-  filter: blur(0px);
-  height:100vh;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
+  filter: blur(1px);
+  // height:100vh;
+  // position: -webkit-sticky; /* Safari */
+  // position: sticky;
 }
 
 .container{

@@ -1,44 +1,33 @@
 import React, { Component } from "react";
-import AdSense from 'react-adsense';
-import * as api from "../db/sqlqueries";
+import AdSense from "react-adsense";
+
 
 class AdvertisingBox extends Component {
-  state={
-    advertText:"not loaded"
-  }
-  componentDidMount() {
-    // (window.adsbygoogle = window.adsbygoogle || []).push({});
-    api.getAdvert()
-    .then(res=>{
+  state = {
+    advertText: "not loaded",
+    number: 1
+  };
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props) {
+      let newNumber = Math.random();
       this.setState({
-        advertText:res.data
-      })
-    })
-
+        number: newNumber
+      });
+    }
   }
-
-componentDidUpdate(prevProps, prevState,){
-  if(prevProps !== this.props){
-    api.getAdvert()
-    .then(res=>{
-      this.setState({
-        advertText:res.data
-      })
-    })
-  }
-}
-
 
   render() {
+    let { number } = this.state;
     return (
-      <div className="advertisingBox">
-{this.state.advertText}
-
-{/* <AdSense.Google
-  client='ca-pub-2303157713889417'
-  slot='8744366555'
-/> */}
-
+      <div className="advertisingBox" key={number} id={String(number)}>
+        {/* <AdSense.Google
+          key={number}
+          client="ca-pub-2303157713889417"
+          slot="8744366555"
+          style={{ width: "728px", height: "90px", display: "inline-block" }}
+          format=""
+        /> */}
       </div>
     );
   }

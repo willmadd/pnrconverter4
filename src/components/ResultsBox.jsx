@@ -4,7 +4,8 @@ import ResultsTwoLinesReordered from "./ResultsTwoLinesReordered";
 import ResultsTwoLines from "./ResultsTwoLines";
 import ResultsTable from "./ResultsTable";
 import TransitTime from "./TransitTime";
-import * as functions from "../controllers/jsfunctions"
+import * as functions from "../controllers/jsfunctions";
+import translateFunc from '../translations/TranslateFunction'
 
 import React, { Component } from "react";
 
@@ -13,8 +14,7 @@ class ResultsBox extends Component {
 
 
   render() {
-    const { results, options, format } = this.props;
-    console.log(options);
+    const { results, options, format, value} = this.props;
 
     const {
       airlineName,
@@ -28,7 +28,7 @@ class ResultsBox extends Component {
     } = options;
 
     return (
-      <div className="resultsbox">
+      <div className="resultsbox shadow">
         {results.map((result, index) => {
           console.log(result);
           const depDate = new Date(result.data.dep.dateTime.string);
@@ -46,35 +46,49 @@ class ResultsBox extends Component {
           }
 
           let transitTimeLabel;
+          let transitAlert;
           if (transitTime && !transitTime.days && transit) {
+            
+            if(transitTime.hours >= 4){
+              transitAlert = "long-transit"
+            }else if(transitTime.hours <= 0 ||(transitTime.hours === 1 && transitTime.minutes <= 30)){
+              console.log(transitTime.hours)
+              console.log(transitTime.minutes)
+              transitAlert = "short-transit"
+            }
+          
             transitTimeLabel =
-              "-------- Transit Time: " +
+              "-------- "+translateFunc(value||'en', 'transit.time')+" " +
               transitTime.hours +
-              "h " +
+              translateFunc(value||'en', 'time.hours')+" " +
               transitTime.minutes +
-              "m --------";
+              translateFunc(value||'en', 'time.minutes')+" --------";
           } else {
-            transitTimeLabel = <hr class="hr"/>;
+            transitTimeLabel = <hr className="hr"/>;
           }
 
-          const depDateFormatted = depDate.toLocaleString("en-gb", {
-            weekday: "short",
+          const languageCode = translateFunc(value||'en', 'language.code')
+
+          const dateFormat = translateFunc(value||'en', 'date.format')
+
+          const depDateFormatted = depDate.toLocaleString(languageCode, {
+            weekday: dateFormat,
             day: "numeric",
             month: "short"
           });
-          const depTimeFormatted = depDate.toLocaleString("en-gb", {
+          const depTimeFormatted = depDate.toLocaleString(languageCode, {
             hour: "numeric",
             minute: "2-digit",
             hour12: twelveClock
           });
 
-          const arrTimeFormatted = arrDate.toLocaleString("en-gb", {
+          const arrTimeFormatted = arrDate.toLocaleString(languageCode, {
             hour: "numeric",
             minute: "2-digit",
             hour12: twelveClock
           });
 
-          const arrDateFormatted = arrDate.toLocaleString("en-gb", {
+          const arrDateFormatted = arrDate.toLocaleString(languageCode, {
             day: "numeric",
             month: "short"
           });
@@ -83,7 +97,7 @@ class ResultsBox extends Component {
 
           if (
             arrDateFormatted !==
-            depDate.toLocaleString("en-gb", {
+            depDate.toLocaleString(languageCode, {
               day: "numeric",
               month: "short"
             })
@@ -120,14 +134,12 @@ class ResultsBox extends Component {
 
           console.log(format);
           return (
-            <div className="results-with-transit" key={depDate.getTime()}>
-              <div className="resultContainer" >
+            <div className={`results-with-transit ${transitAlert}`} key={depDate.getTime()}>
+              <div className={`resultContainer `} >
                 {logo && (
                   <img
-                    src={`/images/airlines/${flt.iatacode}.svg`}
-                    alt=""
-                    // width="75"
-                    // height="75"
+                    src={`/images/airlines/${flt.iatacode.toLowerCase()}.svg`}
+                    alt="airline logo"
                   />
                 )}
 
@@ -136,7 +148,7 @@ class ResultsBox extends Component {
                     {`${depDateFormatted} - ${
                       !airlineName ? flt.iatacode : flt.name
                     } ${flt.flightNo} `}
-                    <span class="operatedBy">
+                    <span className="operatedBy">
                       {`${operatedBy ? flt.operatedBy.toLowerCase() : ""} `}
                     </span>
                     {`${
@@ -148,16 +160,15 @@ class ResultsBox extends Component {
                     }${
                       duration
                         ? " - " +
-                          flt.duration.hours +
-                          "h " +
+                          flt.duration.hours + translateFunc(value, 'time.hours')+" "+
                           flt.duration.minutes +
-                          "m "
+                          translateFunc(value, 'time.minutes')+" "
                         : ""
                     }${
                       distanceradio === "miles"
-                        ? "- " + flt.distance.miles + " Miles"
+                        ? "- " + flt.distance.miles + " "+ translateFunc(value, 'distance.miles')
                         : distanceradio === "km"
-                        ? "- " + flt.distance.km + " KM"
+                        ? "- " + flt.distance.km + " "+ translateFunc(value, 'distance.km')
                         : ""
                     }`}
                   </p>
@@ -170,6 +181,7 @@ class ResultsBox extends Component {
                       arrTimeFormatted={arrTimeFormatted}
                       nextDay={nextDay}
                       transitTime={transitTimeLabel}
+                      value={value}
                     />
                   )}
                   {format === "threelinesreordered" && (
@@ -180,6 +192,7 @@ class ResultsBox extends Component {
                       arrTimeFormatted={arrTimeFormatted}
                       nextDay={nextDay}
                       transitTime={transitTimeLabel}
+                      value={value}
                     />
                   )}
                   {format === "twolines" && (
@@ -190,6 +203,7 @@ class ResultsBox extends Component {
                       arrTimeFormatted={arrTimeFormatted}
                       nextDay={nextDay}
                       transitTime={transitTimeLabel}
+                      value={value}
                     />
                   )}
                   {format === "twolinesreordered" && (
@@ -200,6 +214,7 @@ class ResultsBox extends Component {
                       arrTimeFormatted={arrTimeFormatted}
                       nextDay={nextDay}
                       transitTime={transitTimeLabel}
+                      value={value}
                     />
                   )}
                   {format === "tableoutput" && (
@@ -211,6 +226,7 @@ class ResultsBox extends Component {
                       nextDay={nextDay}
                       transitTime={transitTime}
                       options={options}
+                      value={value}
                     />
                   )}
                 </div>

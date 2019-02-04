@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Translate from '../translations/Translate'
+
+
 
 class Nav extends Component {
   render() {
@@ -6,15 +9,15 @@ class Nav extends Component {
       <div className="subheading">
  <ul id="horizonatalnavbar" role="navigation">
          <li className="navmenuitem">
-           <a href="/">
+           <a href="/development/test.html">
              <img src="/images/icons/homeicon.svg" height="18" id="homeImage" alt='home'/>
-             Home
+             <Translate string={'menu.home'}/>
            </a>
          </li>
          <li className="navmenuitem">
            <a href="/api-introduction">
              <img src="/images/icons/apiicon.svg" height="18" id="apiImage" alt='api'/>
-             API
+             <Translate string={'menu.api'}/>
            </a>
          </li>
 
@@ -26,7 +29,7 @@ class Nav extends Component {
               id="howtoImage"
               alt='how to use pnrconverter'
             />
-            How It Works
+            <Translate string={'menu.how-it-works'}/>
           </a>
         </li>
 
@@ -38,7 +41,7 @@ class Nav extends Component {
               id="suggestionImage"
               alt='send us your suggestions'
             />
-            Suggestions
+            <Translate string={'menu.suggestions'}/>
           </a>
         </li>
         <li className="navmenuitem">
@@ -49,33 +52,33 @@ class Nav extends Component {
               id="aboutUsImage"
               alt='about us'
             />
-            About Us
+            <Translate string={'menu.about-us'}/>
           </a>
         </li>
 
         <li className="navmenuitem">
           <a href="/blog">
             <img src="/images/icons/blogicon.svg" height="18" id="blogImage" alt='blog'/>
-            Blog
+            <Translate string={'menu.blog'}/>
           </a>
         </li>
 
         <li className="navmenuitem">
           <a href="/">
             <img
-              src="/images/languages/en.svg"
+              src={`/images/languages/${this.props.value}.svg`}
               width="26"
               className="langImage"
               id="languageImage"
               alt='change language'
             />
-            Language
+            <Translate string={'menu.language'}/>
           </a>
           <ul className="languageDropdown">
             <li>
               <a href="/">
                 <img
-                  src="./images/languages/en.svg"
+                  src="/images/languages/en.svg"
                   width="26"
                   id="langImage"
                   alt='english language'
@@ -84,9 +87,9 @@ class Nav extends Component {
               </a>
             </li>
             <li>
-              <a href="/es">
+              <a href="/intl/es">
                 <img
-                  src="./images/languages/es.svg"
+                  src="/images/languages/es.svg"
                   width="26"
                   id="langImage"
                   alt='spanish language'
@@ -95,9 +98,9 @@ class Nav extends Component {
               </a>
             </li>
             <li>
-              <a href="/cn">
+              <a href="/intl/cn">
                 <img
-                  src="./images/languages/cn.svg"
+                  src="/images/languages/cn.svg"
                   width="26"
                   id="langImage"
                   alt='chinese language'
@@ -108,7 +111,7 @@ class Nav extends Component {
             <li>
               <a href="/pt">
                 <img
-                  src="./images/languages/ptbr.svg"
+                  src="/images/languages/ptbr.svg"
                   width="26"
                   id="langImage"
                   alt='portuguese language'

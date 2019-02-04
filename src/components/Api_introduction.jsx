@@ -1,8 +1,15 @@
 import React from "react";
 
+import Header from "./Header";
+import Nav from "./Nav";
+
 const Api_introduction = () => {
   return (
-    <div class="results-with-transit">
+    <div>
+                    <Header />
+              <Nav value={'en'}/>
+    
+    <div class="blurb shadow">
     <h2>The PNR Converter API</h2>
       <p>
         {" "}
@@ -81,6 +88,7 @@ const Api_introduction = () => {
 
         
         </pre>
+    </div>
     </div>
   );
 };

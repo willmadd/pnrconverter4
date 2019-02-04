@@ -10,6 +10,11 @@ import Loader from "./Loader";
 import ResultsTable from "./ResultsTable";
 import NothingEntered from "./NothingEntered";
 import Gdpr from "./Gdpr";
+import Header from "./Header";
+import Nav from "./Nav";
+import Translate from "../translations/Translate";
+import { LanguageContext } from "../context/language-context";
+import translateFunc from "../translations/TranslateFunction";
 
 class MainScreen extends Component {
   state = {
@@ -33,6 +38,12 @@ class MainScreen extends Component {
   };
 
   componentDidMount = () => {
+    const title = translateFunc(
+      this.props.match.params.lang || "en",
+      "page.title"
+    );
+    document.title = title;
+
     let visited = localStorage["alreadyVisited"];
     if (visited) {
       let options;
@@ -57,10 +68,17 @@ class MainScreen extends Component {
       localStorage["alreadyVisited"] = true;
       let savedOptions = this.state.options;
       localStorage["options"] = JSON.stringify(savedOptions);
-      localStorage["format"] = "threelines"
+      localStorage["format"] = "threelines";
       this.setState({
         showSignUp: true
       });
+    }
+
+    if (
+      this.props.match.params.lang &&
+      this.props.match.params.lang !== this.props.language
+    ) {
+      this.props.changeLanguage(this.props.match.params.lang);
     }
   };
 
@@ -90,12 +108,11 @@ class MainScreen extends Component {
     });
   };
 
-GDPRaccept = () =>{
-  this.setState({
-    showSignUp:false
-  })
-}
-
+  GDPRaccept = () => {
+    this.setState({
+      showSignUp: false
+    });
+  };
 
   setFormat = event => {
     const { value } = event.target;
@@ -142,46 +159,60 @@ GDPRaccept = () =>{
       loading,
       showSignUp
     } = this.state;
+    const { languageCode, dateFormat } = this.props;
+
     return (
       <div className="App">
-        <div className="bodyb">
-          <div className="container">
-            <form onSubmit={this.handleSubmit}>
-              <div className="floatLeft">
-                <FormEntry setInput={this.setInput} input={input} />
-                <AdvertisingBox {...this.state}/>
-                {showSignUp && "GDPR note"}
-                {loading && <Loader />}
-                {/* {!processedData && <NothingEntered />} */}
-                {language && !processedData && <Blurb language={language} />}
-                {processedData && format !== "tableoutput" &&
-                  <ResultsBoxThreeLines
-                    results={processedData}
-                    options={options}
-                    format={format}
-                  />
-                }
-                {processedData && format=== "tableoutput" &&
-                  (<ResultsTable
-                  results={processedData}
-                  options={options}
+        <LanguageContext.Consumer>
+          {value => (
+            <div>
+              <Header />
+              <Nav value={value}/>
+              <div className="container">
+                <form onSubmit={this.handleSubmit}>
+                  <div className="floatLeft">
+                    <FormEntry
+                      setInput={this.setInput}
+                      input={input}
+                      value={value}
                     />
-                )}
-              </div>
+                    <AdvertisingBox {...this.state} />
+                    {loading && <Loader />}
+                    {languageCode && !processedData && <Blurb />}
 
-              <div className="floatRight">
-                <FormOptions
-                  options={options}
-                  changeOptions={this.changeOptions}
-                  format={format}
-                  setFormat={this.setFormat}
-                />
+                    {processedData && format !== "tableoutput" && (
+                      <ResultsBoxThreeLines
+                        results={processedData}
+                        options={options}
+                        format={format}
+                        value={value}
+                      />
+                    )}
+                    {processedData && format === "tableoutput" && (
+                      <ResultsTable
+                        results={processedData}
+                        options={options}
+                        value={value}
+                      />
+                    )}
+                  </div>
+
+                  <div className="floatRight">
+                    <FormOptions
+                      options={options}
+                      changeOptions={this.changeOptions}
+                      format={format}
+                      setFormat={this.setFormat}
+                    />
+                  </div>
+                </form>
               </div>
-            </form>
-          </div>
-        
-        </div>
-        {showSignUp && <Gdpr GDPRaccept={this.GDPRaccept}/>}
+            </div>
+          )
+
+          // {showSignUp && <Gdpr GDPRaccept={this.GDPRaccept} />}
+          }
+        </LanguageContext.Consumer>
       </div>
     );
   }

@@ -1,10 +1,26 @@
-import React from 'react';
+import React from "react";
+import translateFunc from "../translations/TranslateFunction";
 
-const ResultsTwoLines = (props) => {
-  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay} = props;
+const ResultsTwoLines = props => {
+  const {
+    depairportString,
+    depTimeFormatted,
+    arrairportString,
+    arrTimeFormatted,
+    nextDay
+  } = props;
   return (
     <div>
-                    <p>{`${depairportString}, to ${arrairportString}, Depart ${depTimeFormatted}, Arrive ${arrTimeFormatted}${nextDay}`}</p>
+      <p>{`${depairportString}, ${translateFunc(
+        props.value,
+        "flight.to"
+      )} ${arrairportString}, ${translateFunc(
+        props.value,
+        "flight.depart"
+      )} ${depTimeFormatted}, ${translateFunc(
+        props.value,
+        "flight.arrive"
+      )} ${arrTimeFormatted}${nextDay}`}</p>
     </div>
   );
 };
