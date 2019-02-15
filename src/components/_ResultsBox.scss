@@ -27,7 +27,7 @@ span.operatedBy {
   // background-color: aquamarine;
   margin: 10px;
   display: flex;
-  font-family: "Raleway", sans-serif;
+  font-family: 'ralewayregular';
   font-size: 14px;
   align-items: center;
   img {
@@ -48,6 +48,7 @@ span.operatedBy {
   text-align: left;
   p {
     margin: 0;
+    display: inline;
   }
 }
 
@@ -57,15 +58,20 @@ span.operatedBy {
   // background-color: aquamarine;
   margin: 10px;
   // display: flex;
-  font-family: "Raleway", sans-serif;
+  font-family: 'ralewayregular';
   font-size: 14px;
   // align-items: center;
 }
 
 .transit {
   text-align: left;
-  margin-left: 100px;
   color: $grey-dark;
+}
+.left-margin-75{
+  margin-left: 100px;
+}
+.left-margin-10{
+  margin-left: 20px;
 }
 
 .hr {
@@ -88,3 +94,17 @@ span.operatedBy {
   }
 }
 
+.selectbutton{
+  border-radius: 5px 5px 0px 0px;
+  border:4px solid $brand-primary;
+  padding:5px;
+  max-width:50%;
+  border-bottom-width:0px;
+  cursor: pointer;
+  background-color:$brand-primary;
+  color: $white;
+}
+
+#selectable{
+  margin-top:0;
+}

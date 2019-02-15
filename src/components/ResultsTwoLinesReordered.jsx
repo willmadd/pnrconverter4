@@ -7,8 +7,7 @@ const ResultsThreeLinesReordered = props => {
     depTimeFormatted,
     arrairportString,
     arrTimeFormatted,
-    nextDay,
-    transitTime
+    nextDay
   } = props;
   return (
     <div>

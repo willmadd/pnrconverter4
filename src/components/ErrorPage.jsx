@@ -7,9 +7,12 @@ const ErrorPage = () => {
     <div>
       <Header />
       <Nav value={"en"} />
-      This page does not exist. Please head back to www.pnrconvter.com to start again!
+      <div className="blurb shadow">
+      <h3>Error Code 404: Page not found</h3>
+      
+      This page does not exist. Please head back to <a href="/" className="invalid-page-link">www.pnrconvter.com</a> to start again!
+      </div>
 
-      Error Code 404: Page not found
     </div>
   );
 };

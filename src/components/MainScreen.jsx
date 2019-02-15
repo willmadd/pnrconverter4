@@ -8,13 +8,15 @@ import * as func from "../controllers/convert";
 import ResultsBoxThreeLines from "./ResultsBox";
 import Loader from "./Loader";
 import ResultsTable from "./ResultsTable";
-import NothingEntered from "./NothingEntered";
 import Gdpr from "./Gdpr";
 import Header from "./Header";
 import Nav from "./Nav";
-import Translate from "../translations/Translate";
 import { LanguageContext } from "../context/language-context";
 import translateFunc from "../translations/TranslateFunction";
+import InvalidInput from "./InvalidInput";
+import ReactGA from 'react-ga';
+import Adblock from "./Adblock";
+import Banner from "./Banner";
 
 class MainScreen extends Component {
   state = {
@@ -29,12 +31,16 @@ class MainScreen extends Component {
       twelveClock: true,
       operatedBy: false,
       distanceradio: "off",
-      duration: true
+      duration: true,
+      systemFonts: false,
     },
     input: "",
+    names:"",
     processedData: "",
     loading: false,
-    showSignUp: "false"
+    showSignUp: false,
+    error:false,
+    addblocker:false,
   };
 
   componentDidMount = () => {
@@ -73,7 +79,6 @@ class MainScreen extends Component {
         showSignUp: true
       });
     }
-
     if (
       this.props.match.params.lang &&
       this.props.match.params.lang !== this.props.language
@@ -82,10 +87,19 @@ class MainScreen extends Component {
     }
   };
 
-  componentDidUpdate = () => {
+  componentDidUpdate = (prevProps, prevState) => {
     let savedOptions = this.state.options;
     localStorage["options"] = JSON.stringify(savedOptions);
     localStorage["format"] = this.state.format;
+ 
+    if (
+      (this.props.match.params.lang &&
+      this.props.match.params.lang !== this.props.language)
+    ) {
+      this.props.changeLanguage(this.props.match.params.lang);
+    }else if(!this.props.match.params.lang && this.props.language!=="en"){
+      this.props.changeLanguage("en")
+    }
   };
 
   changeOptions = event => {
@@ -130,20 +144,43 @@ class MainScreen extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    const { input, options } = this.state;
+
+    ReactGA.event({
+      category: 'User',
+      action: 'Converted Itinerary',
+      label: this.props.language
+    });
+
+
+    const { input, options, format } = this.state;
     this.setState(
       {
         loading: true
       },
       () => {
-        let processedData = func.convertItinerary(input, options);
-        processedData.then(res => {
-          // console.log(res);
+        let names = func.getNames(input);
+        let processedData = func.convertItinerary(input, options, format);
+        processedData.then((res) => {
+          if(!res[0]){
+            this.setState({
+              error:true,
+              loading: false,
+            })
+          }else{
+            this.setState({
+              input: "",
+              processedData: res,
+              loading: false,
+              names,
+              error:false,
+            });
+          }
+        })
+        .catch(err=>{
           this.setState({
-            input: "",
-            processedData: res,
-            loading: false
-          });
+            error:true,
+            loading: false,
+          })
         });
       }
     );
@@ -151,15 +188,15 @@ class MainScreen extends Component {
 
   render() {
     const {
-      language,
       options,
       format,
       input,
       processedData,
       loading,
-      showSignUp
+      showSignUp,
+      names,
+      error
     } = this.state;
-    const { languageCode, dateFormat } = this.props;
 
     return (
       <div className="App">
@@ -168,6 +205,7 @@ class MainScreen extends Component {
             <div>
               <Header />
               <Nav value={value}/>
+              <Banner />
               <div className="container">
                 <form onSubmit={this.handleSubmit}>
                   <div className="floatLeft">
@@ -178,21 +216,24 @@ class MainScreen extends Component {
                     />
                     <AdvertisingBox {...this.state} />
                     {loading && <Loader />}
-                    {languageCode && !processedData && <Blurb />}
-
-                    {processedData && format !== "tableoutput" && (
+                    {error && <InvalidInput/>}
+                    {value && !processedData && <Blurb />}
+                    {processedData && !error && format !== "tableoutput" && (
                       <ResultsBoxThreeLines
                         results={processedData}
                         options={options}
                         format={format}
                         value={value}
+                        names={names}
                       />
                     )}
+                    
                     {processedData && format === "tableoutput" && (
                       <ResultsTable
                         results={processedData}
                         options={options}
                         value={value}
+                        names={names}
                       />
                     )}
                   </div>
@@ -207,10 +248,11 @@ class MainScreen extends Component {
                   </div>
                 </form>
               </div>
+              {showSignUp && <Gdpr GDPRaccept={this.GDPRaccept} />}
+              <Adblock />
             </div>
           )
-
-          // {showSignUp && <Gdpr GDPRaccept={this.GDPRaccept} />}
+          
           }
         </LanguageContext.Consumer>
       </div>

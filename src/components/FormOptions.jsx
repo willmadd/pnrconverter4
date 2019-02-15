@@ -11,7 +11,8 @@ class FormOptions extends Component {
       twelveClock,
       operatedBy,
       duration,
-      distanceradio
+      distanceradio,
+      systemFont
     } = this.props.options;
     const { changeOptions, format, setFormat } = this.props;
     return (
@@ -213,6 +214,17 @@ class FormOptions extends Component {
             />
             <label htmlFor="resultformat_4"><Translate string={'nav.table'}/></label>
           </div>
+          <h3>Advanced</h3>
+          <div className="displayOption" id="systemFont">
+          <input
+            type="checkbox"
+            name="systemFonts"
+            id="systemFonts"
+            onChange={e => changeOptions(e)}
+            checked={systemFont}
+          />
+          <label htmlFor="systemFonts">Use System Fonts</label>
+        </div>
         </div>
       </div>
     );

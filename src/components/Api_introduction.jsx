@@ -9,7 +9,7 @@ const Api_introduction = () => {
                     <Header />
               <Nav value={'en'}/>
     
-    <div class="blurb shadow">
+    <div className="blurb shadow">
     <h2>The PNR Converter API</h2>
       <p>
         {" "}

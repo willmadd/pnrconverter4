@@ -2,7 +2,7 @@ import React from 'react';
 import translateFunc from "../translations/TranslateFunction";
 
 const ResultsThreeLines = (props) => {
-  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay} = props;
+  const {depairportString, depTimeFormatted, arrairportString,arrTimeFormatted, nextDay, transitTime} = props;
   
   return (
     <div>
@@ -12,7 +12,7 @@ const ResultsThreeLines = (props) => {
       )} ${depairportString} ${translateFunc(
         props.value,
         "flight.at"
-      )} ${depTimeFormatted}`}</p>
+      )} ${depTimeFormatted}`}</p><br/>
                     <p>{`${translateFunc(
         props.value,
         "flight.arriving"

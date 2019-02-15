@@ -1,5 +1,9 @@
 @import "./components/variables.scss";
 
+
+
+
+
 header {
   min-height: 40px;
   padding: 10px;
@@ -8,7 +12,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  font-family: $font-condensed;
+  font-family: 'sarosregular' !important;
   // letter-spacing: 0.5px;
   color: $black;
   letter-spacing: 1px;

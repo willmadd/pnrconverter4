@@ -22,6 +22,7 @@ fieldset{
 
 .displayOption label {
   position: relative;
+  
 }
 
 
@@ -64,6 +65,7 @@ fieldset{
 
 
 .displayOption input[type="checkbox"]:checked + label,.displayOption input[type="radio"]:checked + label{
+  // margin:3px;
   // border: 1px solid white;
   // padding: 5px;
   width:100%;
@@ -77,6 +79,8 @@ fieldset{
   display:inline-block;
   text-align: center;
   color:white;
+  line-height:18px;
+  font-weight:600;
 } 
 
 input[type="checkbox"], input[type="radio"] {
@@ -103,6 +107,8 @@ input[type="checkbox"], input[type="radio"] {
   display:inline-block;
   text-align: center;
   background-color: $unselected;
+  line-height:18px;
+  font-weight:600;
 }
 
 .displayOption input[type="checkbox"] + label:hover,.displayOption input[type="radio"] + label:hover, .fieldset input[type="radio"] + label:hover{
@@ -146,4 +152,8 @@ text-align: center;
 
 .multioptionsbreak{
   margin-bottom:10px;
+}
+
+#system-font{
+  // margin-top:40px;
 }

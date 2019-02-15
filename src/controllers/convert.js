@@ -1,17 +1,17 @@
 import * as api from "../db/sqlqueries";
 
-export const convertItinerary = (flightInput, options) => {
+export const convertItinerary = (flightInput, options, format) => {
+  api.writeQueries(flightInput, options, format);
   //split lines into array
   flightInput = createArray(flightInput);
   //filter out non valid flight lines
   flightInput = filterFlightInput(flightInput);
 
-  console.log(flightInput);
+
 
   flightInput.forEach((line, index) => {
     if (/OPERATED BY\s/.test(line)) {
       if (/OPERATED BY\s/.test(flightInput[index + 1])) {
-        // console.log("detected....");
         flightInput.splice(index + 1, 1);
       }
 
@@ -24,8 +24,7 @@ export const convertItinerary = (flightInput, options) => {
     const depDest = getDepartureDestination(flightLine);
     const arrDest = getArrivalDestination(flightLine);
     const airline = getAirlineData(flightLine, depDest, arrDest);
-
-    console.log(airline);
+// console.log([depDest, arrDest])
 
     return {
       airline
@@ -38,11 +37,13 @@ export const convertItinerary = (flightInput, options) => {
   }
 
   return Promise.all(promises).then(result => {
+    console.log(result);
     return result;
   });
 };
 
 const getAirlineData = (flightInfo, depDest, arrDest) => {
+
   const iatacode = flightInfo.slice(0, 2);
   let opBy;
   let regex = /OPERATED\sBY\s(.*)/;
@@ -93,7 +94,7 @@ const filterFlightInput = flightInput => {
     return (
       (line.length > 20 &&
         getBookingClass(line) !== undefined &&
-        getDepartureDate(line) !== undefined) ||
+        getDepartureDate(line) !== undefined && getArrivalDestination(line)!== undefined && getDepartureDate(line) !== undefined && !line.substring(0, 6).includes('HHT') && !line.substring(0, 6).includes('OTH') && !/\/\w+\//.test(line)) ||
       /OPERATED BY\s/.test(line)
     );
   });
@@ -105,6 +106,12 @@ const getDepartureDestination = flightInfo => {
   // let departureDest = "";
 
   if (!flightInfo.match(regex)) {
+    let newRegex=/\D\s+\d{2}\D{3}\s+\D{3}\s+\w{1,2}\s\D{3}/;
+    if (flightInfo.match(newRegex)){
+      let newDest = flightInfo.match(newRegex)[0];
+      console.log(newDest.match(/\b\w{3}\b/g)[0]);
+      return newDest.match(/\b\D{3}\b/g)[0]
+    };
     return null;
   }
   let departureDest = flightInfo.match(regex)[0];
@@ -119,6 +126,12 @@ const getDepartureDestination = flightInfo => {
 const getArrivalDestination = flightInfo => {
   let regex = /\b[A-Z]{6}\b|\b[A-Z]{3}\s[A-Z]{3}\b/;
   if (!flightInfo.match(regex)) {
+    let newRegex=/\D\s+\d{2}\D{3}\s+\D{3}\s+\w{1,2}\s\D{3}/;
+    if (flightInfo.match(newRegex)){
+      let newDest = flightInfo.match(newRegex)[0];
+      // console.log(newDest.match(/\b\D{3}\b/g)[1]);
+      return newDest.match(/\b\D{3}\b/g)[1]
+    };
     return null;
   }
 
@@ -136,7 +149,32 @@ const getDepartureDate = flightInfo => {
     return;
   }
   let regex = /[0-9]+((JAN)|(FEB)|(MAR)|(APR)|(MAY)|(JUN)|(JUL)|(AUG)|(SEP)|(OCT)|(NOV)|(DEC))/;
-  let date = flightInfo.match(regex)[0].trim();
-  // console.log(date);
-  return date;
+  if(flightInfo.match(regex)){
+    let date = flightInfo.match(regex)[0].trim();
+    return date;
+  }else{
+    return undefined;
+  }
+};
+
+
+
+export const getNames = flightData => {
+
+flightData=createArray(flightData)
+let passengers = [];
+
+  flightData.forEach(line => {
+    if (/\b\d{1}\.\w{3,}\/\D+[\D]\b/.test(line)){
+      line = line.split(/[0-9]\.[0-9]|[0-9]\./).filter(line => line)
+      line.forEach(line =>{
+        passengers.push(line)
+      })
+    }
+  })
+  passengers = passengers.filter(name=>{
+    return !/^\s/.test(name)
+  })
+
+  return passengers;
 };

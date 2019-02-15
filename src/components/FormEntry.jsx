@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Translate from '../translations/Translate'
-import { LanguageContext } from "../context/language-context";
 import translateFunc from '../translations/TranslateFunction'
 
 class FormEntry extends Component {
@@ -21,6 +20,7 @@ const placeHolder = translateFunc(this.props.value, 'submitbox.copy-and-paste')
           value={input}
           onChange={e => setInput(e)}
         />
+        
         <button className="dataInputChild" type="submit">
           <h3><Translate string={'submitbox.convert'}/></h3>
           <img src="/images/icons/paper-plane.svg" 

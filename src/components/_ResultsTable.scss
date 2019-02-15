@@ -1,5 +1,4 @@
 table {
-  // background-color:red;
   tr {
     td {
       border: 1px solid black;
@@ -9,15 +8,17 @@ table {
         max-height: 35px;
       }
     }
+    th{
+      border: 1px solid black;
+      text-transform: capitalize;
+    }
   }
 }
 
 table {
-  font-family: 'Raleway', sans-serif;
   border-collapse: collapse;
-  width: 100%;
+  // width: 100%;
   font-size:14px;
-  // margin:15px;
   box-sizing: border-box;
   
     td, th {
@@ -35,4 +36,12 @@ tr:nth-child(even) {
 
 .margin-table{
   padding:15px;
+}
+
+.no-margin{
+  margin-top:0 !important;
+}
+
+.operated-by{
+  text-transform: capitalize;
 }

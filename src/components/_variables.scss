@@ -1,5 +1,14 @@
-$font-regular: 'Poppins', sans-serif;;
-$font-condensed: 'Poppins', sans-serif;;
+@font-face {
+  font-family: 'sarosregular';
+  src: url('/fonts/saros-regular-webfont.woff2') format('woff2'),
+       url('/fonts/saros-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+$font-regular: 'sarosregular';
+$font-condensed: 'sarosregular';
 
 $brand-primary: #FF715B;
 $brand-secondary: #43aa8b;

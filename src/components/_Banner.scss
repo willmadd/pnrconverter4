@@ -1,0 +1,13 @@
+.banner{
+  width:100%;
+  // background-color:red;
+  padding:10px;
+  background-color: white;
+  border-bottom: 1px solid black;
+  box-sizing: border-box;
+  a{
+    color:$brand-primary;
+    font-weight: 600;
+    text-decoration: underline;
+  }
+}

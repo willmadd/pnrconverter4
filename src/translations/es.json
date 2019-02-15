@@ -62,6 +62,10 @@
   "table.operated-by":"Operado Por",
   "table.duration":"Duración",
   "table.distance":"Distancia",
-  "table.transit":"Tránsito"
+  "table.transit":"Tránsito",
+  "message.doubleclick":"Haga doble clic aquí para seleccionar todo",
+  "flight.longconnection":"Conexión Larga",
+  "flight.on-the":"el",
+  "flight.shortconnection":"Conexión Corta"
 }
 

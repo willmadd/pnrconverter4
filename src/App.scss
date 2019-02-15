@@ -1,3 +1,20 @@
+@font-face {
+  font-family: 'ralewayregular';
+  src: url('/fonts/raleway-regular-webfont.woff2') format('woff2'),
+       url('/fonts/raleway-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'sarosregular';
+  src: url('/fonts/saros-regular-webfont.woff2') format('woff2'),
+       url('/fonts/saros-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 @import './components/Header.scss';
 @import './components/FormEntry.scss';
 @import './components/FormOptions.scss';
@@ -9,7 +26,13 @@
 @import './components/ResultsTable.scss';
 @import './components/Footer.scss';
 @import './components/Gdpr.scss';
-
+@import './components/Loader.scss';
+@import './components/Names.scss';
+@import './components/TransitTime.scss';
+@import './components/InvalidInput.scss';
+@import './components/Blog.scss';
+@import './components/Adblock.scss';
+@import './components/Banner.scss';
 
 .body{
   width: 95%;

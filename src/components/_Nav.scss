@@ -1,41 +1,53 @@
 
 .subheading{
-  width: 100%;
+  // width: 100%;
   height: 40px;
   background-color: $brand-red;
-  display: flex;
+  // display: flex;
   justify-content:center;
   align-items:center;
   line-height:20px;
   color:$grey-light;
   font-family: $font-regular;
   
-  ul {
-    display: flex;
-    width: 70%;
-    justify-content: space-between;
-    li {
+  ul#horizonatalnavbar {
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    // width: 100%;
+    height: 40px;
+    // justify-content: space-between;
+    li.navmenuitem {
+      // display: inline-block;
+      // display:flex;
       margin-left: 0px;
       box-sizing: border-box;
+      background-color: $brand-red;
+      line-height: 30px;
+      font-weight: 600;
+    font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-grow: 1;
+      text-transform: uppercase;
+      color:$grey-light;
     }
   }
 }
 
-.navmenuitem{
-  /* float:left;  height:40px; */
-  line-height: 30px;
-  font-weight: 600;
-font-size: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  flex-grow: 1;
-  // border-bottom: 3px solid #37392E;
-  text-transform: uppercase;
-  color:$grey-light;
-  /* background-color: blue; */
-}
+// .navmenuitem{
+//   line-height: 30px;
+//   font-weight: 600;
+// font-size: 12px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   cursor: pointer;
+//   flex-grow: 1;
+//   text-transform: uppercase;
+//   color:$grey-light;
+// }
 
 .navmenuitem a{
   display: flex;
@@ -55,26 +67,14 @@ a {
   transition: 0.5s
 }
 
-#horizonatalnavbar:hover .navmenuitem #homeImage, #horizonatalnavbar:hover .navmenuitem #aboutUsImage {
-  background-color: #28AFB0;
+.navmenuitem:hover a {
+  color: #444444;
   transition: 0.5s;
 }
-
-
-#horizonatalnavbar:hover .navmenuitem #apiImage, #horizonatalnavbar:hover .navmenuitem #blogImage {
-  background-color: #28AFB0;
-  transition: 0.5s;
+.navmenuitem:hover{
+  background-color: brown;
 }
 
-#horizonatalnavbar:hover .navmenuitem #howtoImage, #horizonatalnavbar:hover .navmenuitem #languageImage {
-  background-color: #28AFB0;
-  transition: 0.5s;
-}
-
-#horizonatalnavbar:hover .navmenuitem #suggestionImage {
-  background-color: $brand-primary;
-  transition: 0.5s;
-}
 
 .navmenuitem:hover{
    /* text-decoration: underline; */
@@ -94,7 +94,7 @@ ul{
 
 
 li {
-  display: block;
+  // display: block;
   transition-duration: 0.5s;
  }
  
@@ -103,22 +103,22 @@ li {
  }
  
 ul li{
-  position: relative;;
+  position: relative;
 }
 
  ul li ul {
-   top:23px;
+   top:27px;
    visibility: hidden;
    opacity: 0;
    position: absolute;
    transition: all 0.5s ease;
-   margin-top: 1rem;
-   left: 0;
+   margin-top: 12px;
+   right: 0;
    display: none;
    z-index: 500;
-   background-color: #19647E;
-   /* padding: 0px 10px; */
-   width: 100%;
+  //  background-color: $brand-red;
+  //  padding: 0px 10px;
+  //  width: 400px;
  }
  
  ul li:hover > ul,
@@ -130,11 +130,30 @@ ul li{
  
  ul li ul li {
    clear: both;
-   width: 100%;
+   position:relative;
+   border: 1px solid black;
+  //  border-width: 0px 1px 1px 1px;
+  width:150px;
+  display: flex;
+  align-content: center;
+  background-color: $brand-red;
+  img.flag{
+    width:40px;
+    height:24px;
+    background-color: transparent;
+    padding:4px;
+  }
+  p{
+    text-align: center;
+    margin:0;
+    padding:0;
+  }
+
  }
 
  ul li ul li:hover{
-  background-color: #28AFB0;
+  background-color: $brand-red-hover;
+
  }
 
  .langImage{

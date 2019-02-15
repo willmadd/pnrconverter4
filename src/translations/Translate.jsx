@@ -4,6 +4,11 @@ import { LanguageContext } from "../context/language-context"
 import en from "./en.json";
 import es from "./es.json";
 import cn from "./cn.json";
+import pt from "./pt.json";
+import de from "./de.json";
+import fr from "./fr.json";
+import no from "./no.json";
+import nl from "./nl.json";
 
 
 export default class Translate extends PureComponent {
@@ -13,7 +18,12 @@ export default class Translate extends PureComponent {
       langs: {
         en,
         es,
-        cn
+        cn,
+        pt,
+        de,
+        fr,
+        no,
+        nl
       }
     };
   }
