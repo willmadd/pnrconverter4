@@ -8,15 +8,16 @@
     "firebase": "^5.5.9",
     "history": "^4.7.2",
     "markdown-to-jsx": "^6.9.1",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.12.0",
     "react": "^16.6.3",
     "react-ad-block-detect": "^1.0.1",
     "react-adsense": "0.0.6",
     "react-dom": "^16.6.3",
     "react-ga": "^2.5.7",
+    "react-helmet": "^5.2.0",
     "react-html-parser": "^2.0.2",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "^2.1.3",
+    "react-scripts": "^2.1.5",
     "spacetime": "^4.5.1"
   },
   "scripts": {

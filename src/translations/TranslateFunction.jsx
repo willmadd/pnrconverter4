@@ -6,8 +6,9 @@ import de from "./de.json";
 import fr from "./fr.json";
 import no from "./no.json";
 import nl from "./nl.json";
+import tr from "./tr.json";
 
-let langs = {en, es,cn, pt, de, fr, no, nl}
+let langs = {en, es,cn, pt, de, fr, no, nl, tr}
 
 
 export default function translateFunc(value, string){

@@ -208,7 +208,7 @@ let {tableStyle} = this.state;
                     {logo && (
                       <td>
                         <img
-                          src={`/images/airlines/${flt.iatacode.toLowerCase()}.svg`}
+                          src={`/images/airlines/png/150/${flt.iatacode.toLowerCase()}.png`}
                           alt=""
                         />
                       </td>

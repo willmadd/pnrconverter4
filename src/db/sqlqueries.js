@@ -9,8 +9,8 @@ exports.queryDatabase = (depAirportCode, arrAirportCode, iatacode, flightLine) =
   params.append('flightLine', flightLine);
 
 
-  // return axios.post('https://www.pnrconverter.com/airport-api.php', params) 
-  return axios.post('http://localhost:8888/pnrconverter/airport-api.php', params) 
+  return axios.post('https://www.pnrconverter.com/airport-api.php', params) 
+  // return axios.post('http://localhost:8888/pnrconverter/airport-api.php', params) 
 };
 
 

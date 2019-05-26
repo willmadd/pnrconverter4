@@ -2,14 +2,23 @@ import React from "react";
 
 import Header from "./Header";
 import Nav from "./Nav";
+import {Helmet} from "react-helmet";
 
 const Api_introduction = () => {
   return (
     <div>
+                                <Helmet>
+                    <title>{`API for Easy PNR Converter`}</title>
+                    <meta name="description" content="An Introduction to PNR Converter's API" />
+            </Helmet>
+
+
+            
                     <Header />
               <Nav value={'en'}/>
     
-    <div className="blurb shadow">
+    <div className="blurb shadow api-intro">
+    <img src="images/api.jpg" alt="introduction to api"/>
     <h2>The PNR Converter API</h2>
       <p>
         {" "}

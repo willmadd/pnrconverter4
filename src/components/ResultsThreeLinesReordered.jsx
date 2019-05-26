@@ -10,23 +10,23 @@ const ResultsThreeLinesReordered = props => {
     nextDay
   } = props;
   return (
-    <div>
+    
       <p>{`${translateFunc(
         props.value,
         "flight.departing"
       )} ${depTimeFormatted} ${translateFunc(
         props.value,
         "flight.from"
-      )} ${depairportString}`}</p>
+      )} ${depairportString}`}
       <br />
-      <p>{`${translateFunc(
+      {`${translateFunc(
         props.value,
         "flight.arriving"
       )} ${arrTimeFormatted}${nextDay} ${translateFunc(
         props.value,
         "flight.into"
       )} ${arrairportString}`}</p>
-    </div>
+    
   );
 };
 

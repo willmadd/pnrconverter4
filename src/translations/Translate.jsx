@@ -9,6 +9,7 @@ import de from "./de.json";
 import fr from "./fr.json";
 import no from "./no.json";
 import nl from "./nl.json";
+import tr from "./tr.json";
 
 
 export default class Translate extends PureComponent {
@@ -23,7 +24,8 @@ export default class Translate extends PureComponent {
         de,
         fr,
         no,
-        nl
+        nl,
+        tr
       }
     };
   }

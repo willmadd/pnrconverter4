@@ -62,7 +62,7 @@ class TransitTime extends Component {
 
     return (
       <div className={`transit ${logo?"left-margin-75":"left-margin-10"}`}>
-        {tt && !tt.days && transit? <TransitTimeWarning transitAlert={transitAlert} transitTimeLabel={transitTimeLabel}/>:<hr/>}
+        {transit? (tt && !tt.days) ?  <TransitTimeWarning transitAlert={transitAlert} transitTimeLabel={transitTimeLabel}/>:"------------------------------------------------------------------------------------------":<br/>}
       </div>
     );
   }

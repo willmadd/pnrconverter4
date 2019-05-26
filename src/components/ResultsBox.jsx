@@ -53,6 +53,7 @@ class ResultsBox extends Component {
         </div>
         <div className=" shadow resultsbox" id="selectable">
           {names[0] && <Names names={names} />}
+
           {results.map((result, index) => {
             const depDate = new Date(result.data.dep.dateTime.string);
             const arrDate = new Date(result.data.arr.dateTime.string);
@@ -66,40 +67,6 @@ class ResultsBox extends Component {
               transitTime = null;
             }
 
-            let transitTimeLabel;
-            let transitAlert;
-            if (transitTime && !transitTime.days && transit) {
-              if (transitTime.hours >= 4) {
-                transitAlert = ` ${translateFunc(
-                  value || "en",
-                  "flight.longconnection"
-                )} `;
-              } else if (
-                transitTime.hours <= 0 ||
-                (transitTime.hours === 1 && transitTime.minutes <= 30)
-              ) {
-                transitAlert = ` ${translateFunc(
-                  value || "en",
-                  "flight.shortconnection"
-                )} `;
-              } else {
-                transitAlert = "";
-              }
-
-              transitTimeLabel =
-                "-------- " +
-                transitAlert +
-                translateFunc(value || "en", "transit.time") +
-                " " +
-                transitTime.hours +
-                translateFunc(value || "en", "time.hours") +
-                " " +
-                transitTime.minutes +
-                translateFunc(value || "en", "time.minutes") +
-                " --------";
-            } else {
-              transitTimeLabel = <hr className="hr" />;
-            }
 
             const languageCode = translateFunc(value || "en", "language.code");
 
@@ -172,22 +139,17 @@ class ResultsBox extends Component {
             }
 
             return (
-              <div
-                className={`results-with-transit`}
-                key={`${depDate.getTime()}${arrDate.getTime()}`}
-              >
-                <div className={`resultContainer `}>
+              <div class="row">
+                <div class="main-content">
                   {logo && (
                     <div className="image-container">
-                      <img
-                        src={`/images/airlines/${flt.iatacode.toLowerCase()}.svg`}
-                        alt="airline logo"
-                      />
+                      <img src={`/images/airlines/png/150/${flt.iatacode.toLowerCase()}.png`} alt="airline logo" 
+                      width="75" />
                     </div>
                   )}
-                  <div className="resultText">
-                    <p className="lineOne">
-                      {`${depDateFormatted} - ${
+
+                  <div className="result-text">
+                  <p className="lineOne">{`${depDateFormatted} - ${
                         !airlineName ? flt.iatacode : flt.name
                       } ${flt.flightNo} `}
                       <span className="operatedBy">
@@ -222,69 +184,60 @@ class ResultsBox extends Component {
                             " " +
                             translateFunc(value, "distance.km")
                           : ""
-                      }`}
-                    </p>
-                    {format === "threelines" && (
-                      <ResultsThreeLines
-                        depairportString={depairportString}
-                        depTimeFormatted={depTimeFormatted}
-                        arrairportString={arrairportString}
-                        arrTimeFormatted={arrTimeFormatted}
-                        nextDay={nextDay}
-                        transitTime={transitTimeLabel}
-                        value={value}
-                      />
-                    )}
-                    {format === "threelinesreordered" && (
-                      <ResultsThreeLinesReordered
-                        depairportString={depairportString}
-                        depTimeFormatted={depTimeFormatted}
-                        arrairportString={arrairportString}
-                        arrTimeFormatted={arrTimeFormatted}
-                        nextDay={nextDay}
-                        transitTime={transitTimeLabel}
-                        value={value}
-                      />
-                    )}
-                    {format === "twolines" && (
-                      <ResultsTwoLines
-                        depairportString={depairportString}
-                        depTimeFormatted={depTimeFormatted}
-                        arrairportString={arrairportString}
-                        arrTimeFormatted={arrTimeFormatted}
-                        nextDay={nextDay}
-                        transitTime={transitTimeLabel}
-                        value={value}
-                      />
-                    )}
-                    {format === "twolinesreordered" && (
-                      <ResultsTwoLinesReordered
-                        depairportString={depairportString}
-                        depTimeFormatted={depTimeFormatted}
-                        arrairportString={arrairportString}
-                        arrTimeFormatted={arrTimeFormatted}
-                        nextDay={nextDay}
-                        transitTime={transitTimeLabel}
-                        value={value}
-                      />
-                    )}
-                    {format === "tableoutput" && (
-                      <ResultsTable
-                        depairportString={depairportString}
-                        depTimeFormatted={depTimeFormatted}
-                        arrairportString={arrairportString}
-                        arrTimeFormatted={arrTimeFormatted}
-                        nextDay={nextDay}
-                        transitTime={transitTime}
-                        options={options}
-                        value={value}
-                      />
-                    )}
-                  </div>
-                </div>
-                  {transitTimeLabel && (
-                    <TransitTime
-                      transitTime={transitTimeLabel}
+                      }`}</p>
+                      {format === "threelines" && (
+                        <ResultsThreeLines
+                          depairportString={depairportString}
+                          depTimeFormatted={depTimeFormatted}
+                          arrairportString={arrairportString}
+                          arrTimeFormatted={arrTimeFormatted}
+                          nextDay={nextDay}
+                          value={value}
+                        />
+                      )}
+                      {format === "threelinesreordered" && (
+                        <ResultsThreeLinesReordered
+                          depairportString={depairportString}
+                          depTimeFormatted={depTimeFormatted}
+                          arrairportString={arrairportString}
+                          arrTimeFormatted={arrTimeFormatted}
+                          nextDay={nextDay}
+                          value={value}
+                        />
+                      )}
+                      {format === "twolines" && (
+                        <ResultsTwoLines
+                          depairportString={depairportString}
+                          depTimeFormatted={depTimeFormatted}
+                          arrairportString={arrairportString}
+                          arrTimeFormatted={arrTimeFormatted}
+                          nextDay={nextDay}
+                          value={value}
+                        />
+                      )}
+                      {format === "twolinesreordered" && (
+                        <ResultsTwoLinesReordered
+                          depairportString={depairportString}
+                          depTimeFormatted={depTimeFormatted}
+                          arrairportString={arrairportString}
+                          arrTimeFormatted={arrTimeFormatted}
+                          nextDay={nextDay}
+                          value={value}
+                        />
+                      )}
+                      {format === "tableoutput" && (
+                        <ResultsTable
+                          depairportString={depairportString}
+                          depTimeFormatted={depTimeFormatted}
+                          arrairportString={arrairportString}
+                          arrTimeFormatted={arrTimeFormatted}
+                          nextDay={nextDay}
+                          transitTime={transitTime}
+                          options={options}
+                          value={value}
+                        />
+                      )}
+                                          <TransitTime
                       tt={transitTime}
                       index={index}
                       results={results}
@@ -293,108 +246,23 @@ class ResultsBox extends Component {
                       transit={transit}
                       logo={logo}
                     />
-                  )}
-
-                {/* <div className={`resultContainer `} >
-                {logo && (
-                  <img
-                    src={`/images/airlines/${flt.iatacode.toLowerCase()}.svg`}
-                    alt="airline logo"
-                  />
-                  )}
-                <div className="resultText">
-                  <p className="lineOne">
-                    {`${depDateFormatted} - ${
-                      !airlineName ? flt.iatacode : flt.name
-                    } ${flt.flightNo} `}
-                    <span className="operatedBy">
-                      {`${operatedBy ? flt.operatedBy.toLowerCase() : ""} `}
-                    </span>
-                    
-                    {`${
-                      cabinradio === "cabin"
-                        ? "- " + flt.cabin
-                        : cabinradio === "className"
-                        ? flt.class
-                        : ""
-                    }${
-                      duration
-                        ? " - " +
-                          flt.duration.hours + translateFunc(value, 'time.hours')+" "+
-                          flt.duration.minutes +
-                          translateFunc(value, 'time.minutes')+" "
-                        : ""
-                    }${
-                      distanceradio === "miles"
-                        ? "- " + flt.distance.miles + " "+ translateFunc(value, 'distance.miles')
-                        : distanceradio === "km"
-                        ? "- " + flt.distance.km + " "+ translateFunc(value, 'distance.km')
-                        : ""
-                    }`}
-                  </p>
-
-                  {format === "threelines" && (
-                    <ResultsThreeLines
-                      depairportString={depairportString}
-                      depTimeFormatted={depTimeFormatted}
-                      arrairportString={arrairportString}
-                      arrTimeFormatted={arrTimeFormatted}
-                      nextDay={nextDay}
-                      transitTime={transitTimeLabel}
-                      value={value}
-                    />
-                  )}
-                  {format === "threelinesreordered" && (
-                    <ResultsThreeLinesReordered
-                      depairportString={depairportString}
-                      depTimeFormatted={depTimeFormatted}
-                      arrairportString={arrairportString}
-                      arrTimeFormatted={arrTimeFormatted}
-                      nextDay={nextDay}
-                      transitTime={transitTimeLabel}
-                      value={value}
-                    />
-                  )}
-                  {format === "twolines" && (
-                    <ResultsTwoLines
-                      depairportString={depairportString}
-                      depTimeFormatted={depTimeFormatted}
-                      arrairportString={arrairportString}
-                      arrTimeFormatted={arrTimeFormatted}
-                      nextDay={nextDay}
-                      transitTime={transitTimeLabel}
-                      value={value}
-                    />
-                  )}
-                  {format === "twolinesreordered" && (
-                    <ResultsTwoLinesReordered
-                      depairportString={depairportString}
-                      depTimeFormatted={depTimeFormatted}
-                      arrairportString={arrairportString}
-                      arrTimeFormatted={arrTimeFormatted}
-                      nextDay={nextDay}
-                      transitTime={transitTimeLabel}
-                      value={value}
-                    />
-                  )}
-                  {format === "tableoutput" && (
-                    <ResultsTable
-                      depairportString={depairportString}
-                      depTimeFormatted={depTimeFormatted}
-                      arrairportString={arrairportString}
-                      arrTimeFormatted={arrTimeFormatted}
-                      nextDay={nextDay}
-                      transitTime={transitTime}
-                      options={options}
-                      value={value}
-                    />
-                  )}
+                  </div>
                 </div>
-              </div>
-              {transitTimeLabel && <TransitTime transitTime={transitTimeLabel} tt={transitTime} index={index} results={results} value={value} arrDate={arrDate} transit={transit}/>} */}
+                    {/* <TransitTime
+                      tt={transitTime}
+                      index={index}
+                      results={results}
+                      value={value}
+                      arrDate={arrDate}
+                      transit={transit}
+                      logo={logo}
+                    /> */}
+                  
               </div>
             );
           })}
+
+          
         </div>
       </div>
     );

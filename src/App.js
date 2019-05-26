@@ -14,6 +14,8 @@ import Article from "./components/Article";
 import Terms from "./components/Terms";
 import Privacy from "./components/Privacy";
 import AboutUs from "./components/AboutUs";
+import CarbonOffset from "./components/CarbonOffset";
+import Login from "./components/Login";
 
 class App extends Component {
   state = {
@@ -29,7 +31,6 @@ class App extends Component {
   render() {
     const reload = () => window.location.reload();
     return (
-      <div className="body">
         <LanguageContext.Provider value={this.state.language}>
           <Switch>
             <Redirect from="/intl/en" to="/" />
@@ -73,6 +74,7 @@ class App extends Component {
               component={Api_introduction}
             />
             <Route exact path="/about-us" component={AboutUs} />
+            <Route exact path="/login" component={Login} />
             <Route
               exact
               path="/how-to-use-pnrconverter"
@@ -84,12 +86,13 @@ class App extends Component {
             <Route path="/sabre-to-apollo-converter.php" onEnter={reload} />
             <Route exact path="/terms-and-conditions" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
+            <Route exact path="/carbon-offset" component={CarbonOffset} />
 
             <ErrorPage />
           </Switch>
           <Footer />
         </LanguageContext.Provider>
-      </div>
+      
     );
   }
 }

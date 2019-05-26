@@ -3,6 +3,7 @@ import Header from "./Header";
 import Nav from "./Nav";
 import * as api from "../db/sqlqueries";
 import { Link } from "react-router-dom";
+import {Helmet} from "react-helmet";
 
 class Blog extends Component {
   state = {
@@ -21,6 +22,9 @@ class Blog extends Component {
   render() {
     return (
       <div className="blog-container">
+                          <Helmet>
+                    <title>{`The PNR Converter Blog | Easy PNR Converter`}</title>
+            </Helmet>
         <Header />
         <Nav value={"en"} />
         <div className="blog-header">
@@ -30,11 +34,11 @@ class Blog extends Component {
         <ul className="blog">
           {this.state.articles.map(article => {
             return (
-              <Link to={`/articles/${article.slug}`}>
+              <Link to={`/articles/${article.slug}`} key={`${article.slug}`}>
                 <li className="blog-article shadow">
                 <h2>{article.title}</h2>
-                <img src={`/images/blog/${article.image}`} alt={`${article.title}`}></img>
-                
+                <img src={`/blogimages/blog/${article.image}`} alt={`${article.title}`}></img>
+                <p>Created {new Date(article.created).toLocaleDateString('en-US', {year: 'numeric', month: 'short', day: 'numeric'})}</p>
                 </li>
               </Link>
             );

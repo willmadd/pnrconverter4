@@ -31,9 +31,9 @@ const Footer = () => {
       <ul className="footer-lang">
       {langs.map(lang=>{
         return (
-          <Link to ={`/intl/${lang}`} key={`${lang}`}>
+          <li key={`${lang}`}><Link to ={`${lang==='en'?`/`:`/intl/${lang}`}`} >
         <img src={`/images/languages/${lang}.svg`} height="24" alt={`language flag ${lang}`}/>
-        </Link>)
+        </Link></li>)
       })}
       </ul>
       <Link to="/privacy">

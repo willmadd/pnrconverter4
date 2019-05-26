@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter} from "react-router-dom";
 import { Router} from "react-router-dom";
 import createHistory from 'history/createBrowserHistory'
 import ReactGA from 'react-ga';

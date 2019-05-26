@@ -33,9 +33,14 @@
 @import './components/Blog.scss';
 @import './components/Adblock.scss';
 @import './components/Banner.scss';
+@import './components/AboutUs.scss';
+@import './components/ApiIntroduction.scss';
+@import './components/HowTo.scss';
+@import './components/Article.scss';
+@import './components/SignUpWindow.scss';
 
 .body{
-  width: 95%;
+  width: 100%;
   // background-color: #25252a;
   margin-left:auto;
   margin-right:auto;
@@ -57,20 +62,18 @@
   right: 0;
   position: absolute;
   z-index: -1;
-  filter: blur(1px);
-  // height:100vh;
-  // position: -webkit-sticky; /* Safari */
-  // position: sticky;
+  filter: blur(4px);
 }
 
 .container{
-  width:90%;
+  width:96%;
 padding-top:40px;
   margin-left:auto;
   margin-right:auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
   form{
     width:100%;
-    // background-color: burlywood;
     display: flex;
   }
 }
@@ -82,7 +85,11 @@ padding-top:40px;
 }
 
 .floatRight{
+  display: none;
+  @media (min-width: $tablet) {
+  display: block;
   flex:1;
+  }
 }
 
 .App {
@@ -94,4 +101,5 @@ padding-top:40px;
   -webkit-box-shadow: 10px 10px 26px -13px rgba(0,0,0,0.75);
 -moz-box-shadow: 10px 10px 26px -13px rgba(0,0,0,0.75);
 box-shadow: 10px 10px 26px -13px rgba(0,0,0,0.75);
+transition: 0.25s;
 }

@@ -3,6 +3,7 @@
   "date.format":"short",
   "page.title":"Einfach PNR Konverter & Decoder - Flugroutenkonverter für Galileo, Smartpoint, Amadeus & Sabre",
   "website.title": "PNR Converter",
+  "page.meta":"PNR-Reiserouten-Konverter und -Decoder für Galileo, Smartpoint, Amadeus oder Sabre. Konvertieren Sie Ihre GDS-Routen in ein kundenfreundliches, lesbares Format",
   "header.tagline": "Umwandlung von Routen für Galileo, Smartpoint, Worldspan, Amadeus & Sabre GDS",
   "menu.home":"Startseite",
   "menu.api":"API",

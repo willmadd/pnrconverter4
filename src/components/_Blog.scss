@@ -13,14 +13,24 @@ ul.blog{
   width: 100%;
   // background-color:red;
   display:grid;
-  grid-template-columns: repeat( auto-fit, minmax(33.33%, 1fr) );
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap:10px;
+  padding-left:10px;
+  padding-right:10px;
+  box-sizing: border-box;
   li.blog-article{
     padding:20px;
     background-color:$grey-light;
     border-radius:5px;
     list-style: none;
     margin:0;
+    &:hover{
+      background-color: lightgray;
+      transition: 0.25s;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
     img{
       width:100%;
     }
@@ -28,4 +38,7 @@ ul.blog{
 }
 .blog-container{
   text-align: center;
+}
+.blogtitleimage{
+  width:100%;
 }

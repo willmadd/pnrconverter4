@@ -3,6 +3,7 @@
   "date.format":"long",
   "page.title":"最佳免費旅客訂坐記錄轉換器",
   "website.title": "PNR轉換器",
+  "page.meta":"PNR 行程轉換器，特別為Galileo, Smartpoint, Amadeus 或 Sabre的系統解碼. 轉換您的 GDS 的行程為解單易明的格式",
   "header.tagline": "為Galileo, Smartpoint, Worldspan, Amadeus & Sabre GDS 翻譯行程",
   "menu.home":"主頁",
   "menu.api":"API",

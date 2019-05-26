@@ -1,5 +1,5 @@
 .blurb{
-  margin-top:30px;
+  // margin-top:30px;
   width:100%;
 color:$black;
   box-sizing: border-box; /* fit parent width */
@@ -14,5 +14,14 @@ color:$black;
   padding:20px;
   p{
     text-align: left;
+  }
+  img{
+    max-width: 100%;
+  }
+  pre{
+    font-size: 6px;
+    @media (min-width: $tablet) {
+      font-size: 12px;
+    }
   }
 }

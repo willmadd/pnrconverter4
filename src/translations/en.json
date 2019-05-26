@@ -2,6 +2,7 @@
   "language.code":"en-GB",
   "date.format":"short",
   "page.title":"Easy PNR Converter & Decoder- Flight Itinerary Converter for Galileo, Smartpoint, Amadeus & Sabre",
+  "page.meta":"PNR Itinerary converter and decoder for Galileo, Smartpoint, Amadeus or Sabre. Convert your GDS itineraries into a customer friendly, readable format",
   "website.title": "PNR Converter",
   "header.tagline": "Converting Itineraries for Galileo, Smartpoint, Worldspan, Amadeus & Sabre GDS",
   "menu.home":"Home",
