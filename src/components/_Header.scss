@@ -12,7 +12,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  font-family: 'sarosregular' !important;
+  font-family: $font-regular !important;
   color: $black;
   letter-spacing: 1px;
   font-weight: 600;
@@ -43,6 +43,7 @@ header {
   @media (min-width: $tablet) {
     .title-text-holder{
     display: flex;
+    flex-direction: column;
   }
 }
 @media (min-width: $desktop) {

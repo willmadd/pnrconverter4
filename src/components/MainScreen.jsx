@@ -21,7 +21,7 @@ import { Helmet } from "react-helmet";
 
 class MainScreen extends Component {
   state = {
-    user: null,
+    user: {},
     language: "en",
     format: "threelines",
     options: {
@@ -42,6 +42,7 @@ class MainScreen extends Component {
     showSignUp: false,
     error: false,
     addblocker: false,
+    laravelResponse:[],
   };
 
   componentDidMount = () => {
@@ -89,16 +90,17 @@ class MainScreen extends Component {
   };
 
   componentDidUpdate = (prevProps, prevState) => {
+    let {lang} = this.props.match.params;
     let savedOptions = this.state.options;
     localStorage["options"] = JSON.stringify(savedOptions);
     localStorage["format"] = this.state.format;
 
     if (
-      this.props.match.params.lang &&
-      this.props.match.params.lang !== this.props.language
+      lang &&
+      lang !== this.props.language
     ) {
-      this.props.changeLanguage(this.props.match.params.lang);
-    } else if (!this.props.match.params.lang && this.props.language !== "en") {
+      this.props.changeLanguage(lang);
+    } else if (!lang && this.props.language !== "en") {
       this.props.changeLanguage("en");
     }
   };
@@ -159,10 +161,12 @@ class MainScreen extends Component {
       },
       () => {
         let names = func.getNames(input);
-        let processedData = func.convertItinerary(input, options, format);
-        processedData
+        // let processedData = func.convertItinerary(input, options, format);
+        let laravelProcessedData = func.laravelConvertItinerary(input, options, format)
+        laravelProcessedData
           .then(res => {
-            if (!res[0]) {
+            // console.log(res.data.flightData.flights);
+            if (!res.data.flightData.flights[0]) {
               this.setState({
                 error: true,
                 loading: false
@@ -170,7 +174,8 @@ class MainScreen extends Component {
             } else {
               this.setState({
                 input: "",
-                processedData: res,
+                // processedData: res,
+                laravelResponse: res.data.flightData.flights,
                 loading: false,
                 names,
                 error: false
@@ -196,9 +201,9 @@ class MainScreen extends Component {
       loading,
       showSignUp,
       names,
-      error
+      error,
+      laravelResponse,
     } = this.state;
-    console.log(`${translateFunc("es", "page.meta")}`)
     return (
       <div className="App body">
         <LanguageContext.Consumer>
@@ -212,7 +217,7 @@ class MainScreen extends Component {
                 
               </Helmet>
               <Header />
-              <Nav value={value} />
+              <Nav value={value} setTokenInStorage={this.props.setTokenInStorage}/>
               {/* <Banner /> */}
 
               <form className="container" onSubmit={this.handleSubmit}>
@@ -225,10 +230,11 @@ class MainScreen extends Component {
                   <AdvertisingBox {...this.state} />
                   {loading && <Loader />}
                   {error && <InvalidInput />}
-                  {value && !processedData && <Blurb />}
-                  {processedData && !error && format !== "tableoutput" && (
+                  {value && !laravelResponse[0] && <Blurb />}
+                  {laravelResponse && !error && format !== "tableoutput" && (
                     <ResultsBoxThreeLines
-                      results={processedData}
+                      // results={processedData}
+                      laravelResults={laravelResponse}
                       options={options}
                       format={format}
                       value={value}
@@ -236,9 +242,10 @@ class MainScreen extends Component {
                     />
                   )}
 
-                  {processedData && format === "tableoutput" && (
+                  {laravelResponse && format === "tableoutput" && (
                     <ResultsTable
-                      results={processedData}
+                    laravelResults={laravelResponse}
+                      // results={processedData}
                       options={options}
                       value={value}
                       names={names}

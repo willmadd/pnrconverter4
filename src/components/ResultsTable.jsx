@@ -57,7 +57,7 @@ changeFont = () =>{
   };
 
   render() {
-    const { results, options, value, names } = this.props;
+    const { results, options, value, names, laravelResults } = this.props;
 
     const {
       airlineName,
@@ -118,10 +118,10 @@ let {tableStyle} = this.state;
               </tr>
             </thead>
             <tbody>
-              {results.map((result, index) => {
-                const { flt, dep, arr } = result.data;
-                const depDate = new Date(result.data.dep.dateTime.string);
-                const arrDate = new Date(result.data.arr.dateTime.string);
+              {laravelResults.map((result, index) => {
+                const { flt, dep, arr } = result;
+                const depDate = new Date(result.flt.departure.string);
+                const arrDate = new Date(result.flt.arrival.string);
 
                 const languageCode = translateFunc(
                   value || "en",
@@ -193,13 +193,19 @@ let {tableStyle} = this.state;
                   nextDay = " (on the " + arrDateFormatted + ")";
                 }
 
+                // let transitTime;
+                // if (results[index + 1]) {
+                //   transitTime = functions.daysBetween(
+                //     arrDate,
+                //     new Date(results[index + 1].data.dep.dateTime.string)
+                //   );
+                // } else {
+                //   transitTime = null;
+                // }
                 let transitTime;
-                if (results[index + 1]) {
-                  transitTime = functions.daysBetween(
-                    arrDate,
-                    new Date(results[index + 1].data.dep.dateTime.string)
-                  );
-                } else {
+                if (result.flt.transit_time.minutes || result.flt.transit_time.hours){
+                  transitTime = result.flt.transit_time;
+                }else{
                   transitTime = null;
                 }
 

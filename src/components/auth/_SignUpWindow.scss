@@ -1,0 +1,117 @@
+
+.sign-up-window {
+    position: fixed; /* Sit on top of the page content */
+    // display: none; /* Hidden by default */
+    width: 100%; /* Full width (cover the whole page) */
+    height: 100%; /* Full height (cover the whole page) */
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+    z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+    
+}
+
+.sign-up-box{
+    // position:fixed;
+display: flex;
+justify-content: center;
+align-items: center;
+    background: white;
+    flex-direction: column;
+    width:84vw;
+    margin-left:auto;
+    margin-right:auto;
+    margin-top:160px;
+}
+
+.sign-up-container{
+    width:100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.signup,.signin{
+    margin:10px;
+    flex:1;
+    align-content: stretch;
+    padding:20px;
+    h2, h3, h6, label, li, p{
+        color:#444444;
+    }
+    p{
+        text-align: left;
+    }
+    h6{
+        margin-bottom:0;
+    }
+    .underline{
+        border-bottom:1px solid darkgray;
+        padding-bottom:10px;
+    }
+}
+
+.signin{
+    border: 2px solid $brand-primary;
+    form{
+        
+        font-family:$font-regular;
+        button{
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 0;
+            background-color: $brand-primary;
+            padding:10px;
+            border: none;
+            outline:none;
+            font-family:$font-regular;
+            color:white;
+            font-size:16px;
+            line-height:20px;
+            margin-top:30px;
+            cursor: pointer;
+        }
+        label{
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            flex:1;
+            padding:10px;
+            box-sizing: border-box;
+        }
+        input{
+            width: 100%;
+            box-sizing: border-box;
+            height:36px;
+            padding:0 6px;
+            font-size:20px;
+            font-family:$font-regular;
+        }
+    }
+}
+
+.signup{
+    border: 2px solid $brand-secondary;
+    a{
+        width:100%;
+        background-color: $brand-secondary;
+        padding:10px;
+        margin-top: 30px;
+        float: left;
+        box-sizing: border-box;
+        cursor: pointer;
+    }
+    ul{
+        li{
+            list-style: none;
+            margin:0;
+            padding:0;
+            text-align: left;
+            &:before{
+                content: "• "
+            }
+        }
+    }
+}

@@ -11,9 +11,9 @@ const placeHolder = translateFunc(this.props.value, 'submitbox.copy-and-paste')
       <div className="inputArea shadow">
   
         <textarea
-          className="dataInputChild"
-          name="xx"
-          id="xx"
+          className="dataInputChildBox"
+          // name="xx"
+          // id="xx"
           cols="30"
           rows="10"
           placeholder={placeHolder}
@@ -21,7 +21,7 @@ const placeHolder = translateFunc(this.props.value, 'submitbox.copy-and-paste')
           onChange={e => setInput(e)}
         />
         
-        <button className="dataInputChild" type="submit">
+        <button className="dataInputChildBox" type="submit">
           <h3><Translate string={'submitbox.convert'}/></h3>
           <img src="/images/icons/paper-plane.svg" 
           height="48"

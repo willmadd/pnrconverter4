@@ -4,15 +4,8 @@ import * as functions from "../controllers/jsfunctions";
 import React, { Component } from "react";
 
 class TransitTime extends Component {
+  
   transitTimeCalc = (index, results, value, arrDate, transit, transitTime) => {
-    if (results[index + 1]) {
-      transitTime = functions.daysBetween(
-        arrDate,
-        new Date(results[index + 1].data.dep.dateTime.string)
-      );
-    } else {
-      transitTime = null;
-    }
 
     let transitTimeLabel;
     let transitAlert;
@@ -59,6 +52,7 @@ class TransitTime extends Component {
         transit,
         tt
       );
+
 
     return (
       <div className={`transit ${logo?"left-margin-75":"left-margin-10"}`}>

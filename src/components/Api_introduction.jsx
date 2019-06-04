@@ -33,13 +33,21 @@ const Api_introduction = () => {
         distance and duration
       </p>
       <h4>Please Contact us for more information</h4>
-      <h3>Sample post request to https://www.pnrconverter.com/my-key/api</h3>
+      <h3>Sample post request to https://www.pnrconverter.com/api</h3>
       <pre>
         <code>
 
 
-          <p>"flightData":
-              "UA1180 U 10MAY 4 EWRORD HK2        C   459P 631P   752 E0"</p>
+          <p>"pnr":
+              "GS00XK/20 QSBSB  0695203 AG 91254785 28MAY  <br/>
+ 1.1FAULKNER/JOANNAMS <br/>
+ 1 . BA  257 T  10SEP LHRDEL HK1  1925  #0820  O*        E TU/WE  <br/>   
+ 2 . CX  698 E  13SEP DELHKG HK1  2240  #0655  O*        E FR/SA   <br/>  
+ 3 . CX 5950 L  16SEP HKGTAO HK1  1015   1335  O*        E MO      <br/>  
+         OPERATED BY CATHAY DRAGON<br/>
+ 4 . CX 5951 L  18SEP TAOHKG HK1  1450   1815  O*        E WE      <br/>  
+         OPERATED BY CATHAY DRAGON<br/>
+ 5 . BA   28 T  18SEP HKGLHR HK1  2345  #0530  O*        E WE/TH"<br/></p>
         </code>
       </pre>
       <hr />

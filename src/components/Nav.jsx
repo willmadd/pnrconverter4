@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Translate from "../translations/Translate";
 import { Link } from "react-router-dom";
-import SignUp from "./SignUp";
+import SignUp from "./auth/SignUpBox";
+
 
 class Nav extends Component {
   state={
@@ -9,17 +10,20 @@ class Nav extends Component {
   }
 
   activateSignUp=()=>{
+    let signUpToggle = this.state.signup;
     this.setState({
-      signup:true
+      signup: !signUpToggle
     })
   }
+
+
 
   render() {
     let {signup} = this.state
     return (
       <nav role="navigation">
         <div id="menuToggle">
-          {signup && <SignUp />}
+          {signup && <SignUp setTokenInStorage={this.props.setTokenInStorage} activateSignUp={this.activateSignUp}/>}
           <input type="checkbox" />
 
           <span />
@@ -202,7 +206,7 @@ class Nav extends Component {
           </ul>
         </div>
 
-<h3>Login/Signup</h3>
+      <h3 onClick={()=>{this.activateSignUp()}}>Login/Signup</h3>
       </nav>
     );
   }

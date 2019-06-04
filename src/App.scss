@@ -37,7 +37,8 @@
 @import './components/ApiIntroduction.scss';
 @import './components/HowTo.scss';
 @import './components/Article.scss';
-@import './components/SignUpWindow.scss';
+@import './components/auth/SignUpWindow';
+@import './components/auth/SignUpPage';
 
 .body{
   width: 100%;

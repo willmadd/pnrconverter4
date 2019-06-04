@@ -16,17 +16,48 @@ import Privacy from "./components/Privacy";
 import AboutUs from "./components/AboutUs";
 import CarbonOffset from "./components/CarbonOffset";
 import Login from "./components/Login";
+import SignUpPage from "./components/auth/SignUpPage";
+import axios from 'axios';
 
 class App extends Component {
   state = {
-    language: "en"
+    language: "en",
+    user:{},
+    token:"",
+    error:"",
   };
 
-  changeLanguauge = language => {
+  changeLanguage = language => {
     this.setState({
       language
     });
   };
+
+getUserData=()=>{
+  let token = localStorage.getItem("userToken");
+  if (token){
+    axios.get(`http://localhost:8000/api/auth/user`,
+    {headers: {
+        "Authorization" : `Bearer ${token}`,
+      }
+    })
+      .then(res => {
+        console.log(res.data);
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+}
+
+  componentDidMount=()=>{
+    this.getUserData();
+  }
+  
+  setTokenInStorage=(token)=>{
+    localStorage.setItem("userToken", token);
+    this.getUserData();
+  }
 
   render() {
     const reload = () => window.location.reload();
@@ -40,7 +71,8 @@ class App extends Component {
               render={routerProps => (
                 <MainScreen
                   {...routerProps}
-                  changeLanguage={this.changeLanguauge}
+                  changeLanguage={this.changeLanguage}
+                  setTokenInStorage={this.setTokenInStorage}
                   language={this.state.language}
                 />
               )}
@@ -56,7 +88,8 @@ class App extends Component {
                 <MainScreen
                   {...routerProps}
                   language={this.state.language}
-                  changeLanguage={this.changeLanguauge}
+                  changeLanguage={this.changeLanguage}
+                  setTokenInStorage={this.setTokenInStorage}
                 />
               )}
             />
@@ -87,6 +120,7 @@ class App extends Component {
             <Route exact path="/terms-and-conditions" component={Terms} />
             <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/carbon-offset" component={CarbonOffset} />
+            <Route exact path="/signup" component={SignUpPage} />
 
             <ErrorPage />
           </Switch>

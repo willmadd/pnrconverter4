@@ -29,8 +29,7 @@ class ResultsBox extends Component {
   };
 
   render() {
-    const { results, options, format, value, names } = this.props;
-
+    const { options, format, value, names, laravelResults } = this.props;
     const {
       airlineName,
       distanceradio,
@@ -54,19 +53,18 @@ class ResultsBox extends Component {
         <div className=" shadow resultsbox" id="selectable">
           {names[0] && <Names names={names} />}
 
-          {results.map((result, index) => {
-            const depDate = new Date(result.data.dep.dateTime.string);
-            const arrDate = new Date(result.data.arr.dateTime.string);
+          {laravelResults.map((result, index) => {
+            console.log(laravelResults);
+            const depDate = new Date(result.flt.departure.string);
+            const arrDate = new Date(result.flt.arrival.string);
             let transitTime;
-            if (results[index + 1]) {
-              transitTime = functions.daysBetween(
-                arrDate,
-                new Date(results[index + 1].data.dep.dateTime.string)
-              );
-            } else {
+
+
+            if (result.flt.transit_time.minutes || result.flt.transit_time.hours){
+              transitTime = result.flt.transit_time;
+            }else{
               transitTime = null;
             }
-
 
             const languageCode = translateFunc(value || "en", "language.code");
 
@@ -111,7 +109,7 @@ class ResultsBox extends Component {
                 ")";
             }
 
-            const { flt, dep, arr } = result.data;
+            const { flt, dep, arr } = result;
             let depairportString;
             if (dep.airportname.split(" ")[0] === dep.cityname) {
               depairportString = dep.airportname + " (" + dep.airportcode + ")";
@@ -139,8 +137,8 @@ class ResultsBox extends Component {
             }
 
             return (
-              <div class="row">
-                <div class="main-content">
+              <div className="row" key={`${arrairportString}${arrTimeFormatted}`}>
+                <div className="main-content">
                   {logo && (
                     <div className="image-container">
                       <img src={`/images/airlines/png/150/${flt.iatacode.toLowerCase()}.png`} alt="airline logo" 
@@ -153,7 +151,7 @@ class ResultsBox extends Component {
                         !airlineName ? flt.iatacode : flt.name
                       } ${flt.flightNo} `}
                       <span className="operatedBy">
-                        {`${operatedBy ? flt.operatedBy.toLowerCase() : ""} `}
+                        {`${(operatedBy && flt.operated_by.toLowerCase() !== flt.name.toLowerCase()) ? `- Operated By ${flt.operated_by.toLowerCase()}` : ""} `}
                       </span>
 
                       {`${
@@ -240,7 +238,7 @@ class ResultsBox extends Component {
                                           <TransitTime
                       tt={transitTime}
                       index={index}
-                      results={results}
+                      results={laravelResults}
                       value={value}
                       arrDate={arrDate}
                       transit={transit}
