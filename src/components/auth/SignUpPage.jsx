@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import Header from "../Header";
-import Nav from "../Nav";
 import axios from "axios";
 import { Redirect } from 'react-router-dom'
 import Loader from "../Loader";
@@ -125,9 +123,6 @@ loginFunction = () =>{
     }
     return (
       <div>
-        <Header />
-        <Nav value={"en"} />
-
         <div className="blurb sign-up-page">
           <img src="./images/planetickets.svg" alt="blank flight tickets" />
           <h1>Welcome to PNR Converter! Lets get you signed up!</h1>

@@ -2,11 +2,22 @@ import Translate from "../translations/Translate";
 import SignUp from "./auth/SignUpBox";
 import React, { Component } from "react";
 import * as api from '../db/api';
+import { Redirect } from 'react-router-dom'
+
 
 class Header extends Component {
   state = {
-    signup: false
+    signup: false,
+    members: false,
   };
+
+componentDidUpdate=(prevProps, prevState)=>{
+if(this.state.members !== prevState.members){
+  this.setState({
+    members:false,
+  })
+}
+}
 
   activateSignUp = () => {
     let signUpToggle = this.state.signup;
@@ -20,10 +31,23 @@ class Header extends Component {
     this.props.logUserOut();
   }
 
-  render() {
-    let { signup } = this.state;
+  membersArea = () => {
+this.setState({
+  members:true,
+})
+  }
 
+  render() {
+    let { signup, members } = this.state;
+    if(members) {
+      return <Redirect to=
+      {{
+        pathname:"/members",
+      }}
+      />
+    }
     return (
+
       <header>
         <a href="/">
           <img
@@ -48,7 +72,7 @@ class Header extends Component {
 
         {this.props.user && this.props.user.name? (
           <div>
-            <button>My Account</button>
+            <button onClick={()=> this.membersArea()}>My Account</button>
             <button onClick={()=>this.logOut()}> Log Out</button>
           </div>
         ) : (

@@ -9,8 +9,6 @@ import ResultsBoxThreeLines from "./ResultsBox";
 import Loader from "./Loader";
 import ResultsTable from "./ResultsTable";
 import Gdpr from "./Gdpr";
-import Header from "./Header";
-import Nav from "./Nav";
 import { LanguageContext } from "../context/language-context";
 import translateFunc from "../translations/TranslateFunction";
 import InvalidInput from "./InvalidInput";
@@ -37,7 +35,6 @@ class MainScreen extends Component {
     },
     input: "",
     names: "",
-    processedData: "",
     loading: false,
     showSignUp: false,
     error: false,
@@ -161,11 +158,9 @@ class MainScreen extends Component {
       },
       () => {
         let names = func.getNames(input);
-        // let processedData = func.convertItinerary(input, options, format);
         let laravelProcessedData = func.laravelConvertItinerary(input, options, format)
         laravelProcessedData
           .then(res => {
-            // console.log(res.data.flightData.flights);
             if (!res.data.flightData.flights[0]) {
               this.setState({
                 error: true,
@@ -174,7 +169,6 @@ class MainScreen extends Component {
             } else {
               this.setState({
                 input: "",
-                // processedData: res,
                 laravelResponse: res.data.flightData.flights,
                 loading: false,
                 names,
@@ -197,7 +191,6 @@ class MainScreen extends Component {
       options,
       format,
       input,
-      processedData,
       loading,
       showSignUp,
       names,
@@ -216,8 +209,8 @@ class MainScreen extends Component {
                 />
                 
               </Helmet>
-              <Header user={this.props.user} setTokenInStorage={this.props.setTokenInStorage} logUserOut={this.props.logUserOut}/>
-              <Nav value={value} />
+              {/* <Header user={this.props.user} setTokenInStorage={this.props.setTokenInStorage} logUserOut={this.props.logUserOut}/>
+              <Nav value={value} /> */}
               {/* <Banner /> */}
 
               <form className="container" onSubmit={this.handleSubmit}>

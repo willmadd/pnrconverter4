@@ -18,15 +18,18 @@ import CarbonOffset from "./components/CarbonOffset";
 import Login from "./components/Login";
 import SignUpPage from "./components/auth/SignUpPage";
 import MailSent from "./components/auth/MailSent";
-import axios from 'axios';
+import axios from "axios";
 import SignUpActivation from "./components/auth/SignUpActivation";
+import Members from "./components/members/members";
+import Header from "./components/Header";
+import Nav from "./components/Nav";
 
 class App extends Component {
   state = {
     language: "en",
-    user:{},
-    token:"",
-    error:"",
+    user: {},
+    token: "",
+    error: ""
   };
 
   changeLanguage = language => {
@@ -35,126 +38,143 @@ class App extends Component {
     });
   };
 
-getUserData=()=>{
-  let token = localStorage.getItem("userToken");
-  if (token){
-    axios.get(`http://localhost:8000/api/auth/user`,
-    {headers: {
-        "Authorization" : `Bearer ${token}`,
-      }
-    })
-      .then(res => {
-        console.log(res.data);
-        this.setState({
-          user:res.data,
+  getUserData = () => {
+    let token = localStorage.getItem("userToken");
+    if (token) {
+      axios
+        .get(`http://localhost:8000/api/auth/user`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         })
-      })
-      .catch(error => {
-        console.log(error)
-      })
-  }
-}
+        .then(res => {
+          console.log(res.data);
+          this.setState({
+            user: res.data
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  };
 
-logUserOut=()=>{
-  localStorage.removeItem("userToken");
-  this.setState({
-    user:{}
-  })
-}
+  logUserOut = () => {
+    localStorage.removeItem("userToken");
+    this.setState({
+      user: {}
+    });
+  };
 
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.getUserData();
-  }
-  
-  setTokenInStorage=(token)=>{
+  };
+
+  setTokenInStorage = token => {
     localStorage.setItem("userToken", token);
     this.getUserData();
-  }
+  };
 
   render() {
     const reload = () => window.location.reload();
     return (
-        <LanguageContext.Provider value={this.state.language}>
-          <Switch>
-            <Redirect from="/intl/en" to="/" />
-            <Route
-              exact
-              path="/"
-              render={routerProps => (
-                <MainScreen
-                  {...routerProps}
-                  changeLanguage={this.changeLanguage}
-                  setTokenInStorage={this.setTokenInStorage}
-                  language={this.state.language}
-                  user={this.state.user}
-                  logUserOut={this.logUserOut}
-                />
-              )}
-            />
+      <LanguageContext.Provider value={this.state.language}>
+        <Header
+          user={this.state.user}
+          setTokenInStorage={this.setTokenInStorage}
+          logUserOut={this.logUserOut}
+        />
+        <Nav value={this.state.language} />
+        <Switch>
+          <Redirect from="/intl/en" to="/" />
+          <Route
+            exact
+            path="/"
+            render={routerProps => (
+              <MainScreen
+                {...routerProps}
+                changeLanguage={this.changeLanguage}
+                setTokenInStorage={this.setTokenInStorage}
+                language={this.state.language}
+                user={this.state.user}
+                logUserOut={this.logUserOut}
+              />
+            )}
+          />
 
-            <Redirect from="/es" to="/intl/es" />
-            <Redirect from="/cn" to="/intl/cn" />
+          <Redirect from="/es" to="/intl/es" />
+          <Redirect from="/cn" to="/intl/cn" />
 
-            <Route
-              exact
-              path="/intl/:lang"
-              render={routerProps => (
-                <MainScreen
-                  {...routerProps}
-                  language={this.state.language}
-                  changeLanguage={this.changeLanguage}
-                  setTokenInStorage={this.setTokenInStorage}
-                  user={this.state.user}
-                  logUserOut={this.logUserOut}
-                />
-              )}
-            />
+          <Route
+            exact
+            path="/intl/:lang"
+            render={routerProps => (
+              <MainScreen
+                {...routerProps}
+                language={this.state.language}
+                changeLanguage={this.changeLanguage}
+                setTokenInStorage={this.setTokenInStorage}
+                user={this.state.user}
+                logUserOut={this.logUserOut}
+              />
+            )}
+          />
 
-            <Route
-              exact
-              path="/articles/:slug"
-              render={routerProps => <Article {...routerProps} />}
-            />
+          <Route
+            exact
+            path="/articles/:slug"
+            render={routerProps => <Article {...routerProps} />}
+          />
 
-            <Route exact path="/empty" component={NothingEntered} />
-            <Route
-              exact
-              path="/api-introduction"
-              component={Api_introduction}
-            />
-            <Route exact path="/about-us" component={AboutUs} />
-            <Route exact path="/login" component={Login} />
-            <Route
-              exact
-              path="/how-to-use-pnrconverter"
-              component={How_it_works}
-            />
-            <Route exact path="/make-a-suggestion" component={Suggestions} />
-            <Route exact path="/blog" component={Blog} />
-            <Route path="/sabre-to-apollo-converter" onEnter={reload} />
-            <Route path="/sabre-to-apollo-converter.php" onEnter={reload} />
-            <Route exact path="/terms-and-conditions" component={Terms} />
-            <Route exact path="/privacy" component={Privacy} />
-            <Route exact path="/carbon-offset" component={CarbonOffset} />
-            <Route exact path="/signup" component={SignUpPage} />
-            <Route exact path="/mailsent" component={MailSent} />
-            {/* <Route  component={SignUpActivation} setTokenInStorage={this.setTokenInStorage}/> */}
+          <Route exact path="/empty" component={NothingEntered} />
+          <Route exact path="/api-introduction" component={Api_introduction} />
+          <Route exact path="/about-us" component={AboutUs} />
+          <Route exact path="/login" component={Login} />
+          <Route
+            exact
+            path="/how-to-use-pnrconverter"
+            component={How_it_works}
+          />
+          <Route exact path="/make-a-suggestion" component={Suggestions} />
+          <Route exact path="/blog" component={Blog} />
+          <Route path="/sabre-to-apollo-converter" onEnter={reload} />
+          <Route path="/sabre-to-apollo-converter.php" onEnter={reload} />
+          <Route exact path="/terms-and-conditions" component={Terms} />
+          <Route exact path="/privacy" component={Privacy} />
+          <Route exact path="/carbon-offset" component={CarbonOffset} />
+          <Route exact path="/signup" component={SignUpPage} />
+          <Route exact path="/mailsent" component={MailSent} />
+          {/* <Route exact path="/members" component={members} /> */}
 
-            <Route
-              exact path="/signup/activate/:token"
-              render={routerProps => (
-                <SignUpActivation
-                  {...routerProps}
-                  setTokenInStorage={this.setTokenInStorage}
-                />
-              )}
-            />
+          <Route
+            exact
+            path="/members"
+            render={() =>
+              this.state.user && this.state.user.name ? (
+                <Members user={this.state.user} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
+          />
 
-            <ErrorPage />
-          </Switch>
-          <Footer />
-        </LanguageContext.Provider>
-      
+          {/* <Route  component={SignUpActivation} setTokenInStorage={this.setTokenInStorage}/> */}
+
+          <Route
+            exact
+            path="/signup/activate/:token"
+            render={routerProps => (
+              <SignUpActivation
+                {...routerProps}
+                setTokenInStorage={this.setTokenInStorage}
+              />
+            )}
+          />
+
+          <ErrorPage />
+        </Switch>
+        <Footer />
+      </LanguageContext.Provider>
     );
   }
 }
