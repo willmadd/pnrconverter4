@@ -216,8 +216,8 @@ class MainScreen extends Component {
                 />
                 
               </Helmet>
-              <Header />
-              <Nav value={value} setTokenInStorage={this.props.setTokenInStorage}/>
+              <Header user={this.props.user} setTokenInStorage={this.props.setTokenInStorage} logUserOut={this.props.logUserOut}/>
+              <Nav value={value} />
               {/* <Banner /> */}
 
               <form className="container" onSubmit={this.handleSubmit}>

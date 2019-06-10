@@ -22,24 +22,26 @@ class SignInModal extends Component {
         
         axios.post(`http://localhost:8000/api/auth/login`,  user )
       .then(res => {
-        this.props.setTokenInStorage(res.data.access_token)
-        this.props.activateSignUp();
+        console.log(this.props.setTokenInStorage);
+        this.props.setTokenInStorage(res.data.access_token);
+        if(this.props.activateSignUp){
+          this.props.activateSignUp();
+        }
       })
       .catch(error => {
-        console.log(error.response.status);
-        switch (error.response.status) {
-          case 422:
-            console.log('dddd')
-            this.setState({
-              error:"Please Enter a Valid Email address"
-            })
-            break
-          case 401:
-            this.setState({
-              error:"Log In Details not Recognised"
-            })
-            break
-        }
+        console.log(error);
+        // switch (error.response.status) {
+        //   case 422:
+        //     this.setState({
+        //       error:"Please Enter a Valid Email address"
+        //     })
+        //     break
+        //   case 401:
+        //     this.setState({
+        //       error:"Log In Details not Recognised"
+        //     })
+        //     break
+        // }
       })
 
     }
@@ -50,7 +52,7 @@ class SignInModal extends Component {
         <h3 className="underline">Existing Customers</h3>
         <div className="models">
 
-        <h3>{this.state.error}</h3>;
+        <h3>{this.state.error}</h3>
         <label>
           User Name:
           <input type="text" name="username" onChange={(e)=>{this.handleChange(e)}}/>

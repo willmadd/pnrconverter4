@@ -5,25 +5,16 @@ import SignUp from "./auth/SignUpBox";
 
 
 class Nav extends Component {
-  state={
-    signup:false,
-  }
 
-  activateSignUp=()=>{
-    let signUpToggle = this.state.signup;
-    this.setState({
-      signup: !signUpToggle
-    })
-  }
+
 
 
 
   render() {
-    let {signup} = this.state
     return (
       <nav role="navigation">
         <div id="menuToggle">
-          {signup && <SignUp setTokenInStorage={this.props.setTokenInStorage} activateSignUp={this.activateSignUp}/>}
+          
           <input type="checkbox" />
 
           <span />
@@ -206,7 +197,13 @@ class Nav extends Component {
           </ul>
         </div>
 
-      <h3 onClick={()=>{this.activateSignUp()}}>Login/Signup</h3>
+      
+      <div className="social-bar">
+      <a href="https://twitter.com/pnrconverter?lang=en"><img src="/images/icons/twitter2.png" alt="twitter2" height="36" width="36"/></a>
+      <a href="https://www.linkedin.com/in/william-maddicott/"><img src="/images/icons/linkdin.png" alt="linkdin" height="36" width="36"/></a>
+      <img src="/images/icons/mail.png" alt="mail" height="36" width="36"/>
+      <img src="/images/icons/rss.png" alt="rss" height="36" width="36"/>
+      </div>
       </nav>
     );
   }

@@ -17,7 +17,9 @@ import AboutUs from "./components/AboutUs";
 import CarbonOffset from "./components/CarbonOffset";
 import Login from "./components/Login";
 import SignUpPage from "./components/auth/SignUpPage";
+import MailSent from "./components/auth/MailSent";
 import axios from 'axios';
+import SignUpActivation from "./components/auth/SignUpActivation";
 
 class App extends Component {
   state = {
@@ -43,11 +45,21 @@ getUserData=()=>{
     })
       .then(res => {
         console.log(res.data);
+        this.setState({
+          user:res.data,
+        })
       })
       .catch(error => {
         console.log(error)
       })
   }
+}
+
+logUserOut=()=>{
+  localStorage.removeItem("userToken");
+  this.setState({
+    user:{}
+  })
 }
 
   componentDidMount=()=>{
@@ -74,6 +86,8 @@ getUserData=()=>{
                   changeLanguage={this.changeLanguage}
                   setTokenInStorage={this.setTokenInStorage}
                   language={this.state.language}
+                  user={this.state.user}
+                  logUserOut={this.logUserOut}
                 />
               )}
             />
@@ -90,6 +104,8 @@ getUserData=()=>{
                   language={this.state.language}
                   changeLanguage={this.changeLanguage}
                   setTokenInStorage={this.setTokenInStorage}
+                  user={this.state.user}
+                  logUserOut={this.logUserOut}
                 />
               )}
             />
@@ -121,6 +137,18 @@ getUserData=()=>{
             <Route exact path="/privacy" component={Privacy} />
             <Route exact path="/carbon-offset" component={CarbonOffset} />
             <Route exact path="/signup" component={SignUpPage} />
+            <Route exact path="/mailsent" component={MailSent} />
+            {/* <Route  component={SignUpActivation} setTokenInStorage={this.setTokenInStorage}/> */}
+
+            <Route
+              exact path="/signup/activate/:token"
+              render={routerProps => (
+                <SignUpActivation
+                  {...routerProps}
+                  setTokenInStorage={this.setTokenInStorage}
+                />
+              )}
+            />
 
             <ErrorPage />
           </Switch>

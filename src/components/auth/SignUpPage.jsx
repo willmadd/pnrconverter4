@@ -1,34 +1,49 @@
 import React, { Component } from "react";
 import Header from "../Header";
 import Nav from "../Nav";
+import axios from "axios";
+import { Redirect } from 'react-router-dom'
+import Loader from "../Loader";
 
 class SignUpPage extends Component {
   state = {
     agencyname: "",
     contactperson: "",
+    iatacode: "",
+    addressone: "",
+    addresstwo: "",
+    city: "",
     email: "",
     phone: "",
     country: "",
     password: "",
-    apiSignupRadio: "free"
+    apiOption: "not set",
+    signupdateday: "",
+    signupdatemonth: "",
+    signupdateyear: "",
+    password_confirmation: "",
+    signupSuccess: false,
+    loading:false,
   };
 
-  componentDidMount=()=>{
+  componentDidMount = () => {
     this.getDate();
-  }
+  };
 
-getDate=()=>{
+  getDate = () => {
     var today = new Date();
     var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
+    var mm = today.getMonth() + 1; //January is 0!
     var yyyy = today.getFullYear();
     // if(dd<10){dd='0'+dd} if(mm<10){mm='0'+mm}
-    today = yyyy+""+mm+""+dd;
+    today = yyyy + "" + mm + "" + dd;
 
-    document.getElementById("signupdateday").value = dd;
-    document.getElementById("signupdatemonth").value = mm;
-    document.getElementById("signupdateyear").value = yyyy;
-}
+    this.setState({
+      signupdateday: dd,
+      signupdatemonth: mm,
+      signupdateyear: yyyy
+    });
+  };
 
   handleChange = event => {
     let { value, name } = event.target;
@@ -39,11 +54,75 @@ getDate=()=>{
 
   handleSubmit = e => {
     e.preventDefault();
-    let { agencyname, contactperson } = this.state;
-    alert(`You've entered agency name ${agencyname} & ${contactperson}`);
+  
+
+    this.setState({
+      loading:true,
+    }, this.loginFunction())
+    
+    
   };
 
+loginFunction = () =>{
+  let {
+    agencyname,
+    contactperson,
+    iatacode,
+    addressone,
+    addresstwo,
+    city,
+    email,
+    phone,
+    country,
+    password,
+    apiOption,
+    signupdateday,
+    signupdatemonth,
+    signupdateyear,
+    password_confirmation
+  } = this.state;
+
+  let user = {
+    agencyname,
+    contactperson,
+    iatacode,
+    addressone,
+    addresstwo,
+    city,
+    email,
+    phone,
+    country,
+    password,
+    apiOption,
+    signupdateday,
+    signupdatemonth,
+    signupdateyear,
+    password_confirmation
+  };
+  axios
+  .post(`http://localhost:8000/api/auth/signup`, user)
+  .then(res => {
+    this.setState({
+      signupSuccess: true,
+    })
+  })
+  .catch(error => {
+    console.log(error);
+  });
+}
+
   render() {
+    if(this.state.signupSuccess) {
+      return <Redirect to=
+      {{
+        pathname:"/mailsent",
+        state:{
+          name: this.state.contactperson,
+          email: this.state.email,
+        }
+      }}
+      />
+    }
     return (
       <div>
         <Header />
@@ -53,22 +132,26 @@ getDate=()=>{
           <img src="./images/planetickets.svg" alt="blank flight tickets" />
           <h1>Welcome to PNR Converter! Lets get you signed up!</h1>
           <div className="form-container">
-            <form onSubmit={(e)=>{this.handleSubmit(e)}}>
+            <form
+              onSubmit={e => {
+                this.handleSubmit(e);
+              }}
+            >
               <label>
-                Agency Name
+                Contact Person
                 <input
                   type="text"
-                  name="agencyname"
+                  name="contactperson"
                   onChange={e => {
                     this.handleChange(e);
                   }}
                 />
               </label>
               <label>
-                Contact Person
+                Agency Name
                 <input
                   type="text"
-                  name="contactperson"
+                  name="agencyname"
                   onChange={e => {
                     this.handleChange(e);
                   }}
@@ -86,7 +169,27 @@ getDate=()=>{
                 />
               </label>
 
-              
+              <label>
+                Address Line 1
+                <input
+                  type="text"
+                  name="addressone"
+                  onChange={e => {
+                    this.handleChange(e);
+                  }}
+                />
+              </label>
+
+              <label>
+                Address Line 2 (Optional)
+                <input
+                  type="text"
+                  name="addresstwo"
+                  onChange={e => {
+                    this.handleChange(e);
+                  }}
+                />
+              </label>
 
               <label>
                 City
@@ -123,6 +226,17 @@ getDate=()=>{
               </label>
 
               <label>
+                Confirm Email
+                <input
+                  type="text"
+                  name="confirmemail"
+                  onChange={e => {
+                    this.handleChange(e);
+                  }}
+                />
+              </label>
+
+              <label>
                 Phone Number
                 <input
                   type="text"
@@ -147,88 +261,20 @@ getDate=()=>{
                 Verify Password
                 <input
                   type="password"
-                  name="verifypassword"
+                  name="password_confirmation"
                   onChange={e => {
                     this.handleChange(e);
                   }}
                 />
               </label>
-              <fieldset>
-                <label className="api-choice-container">
-                  Free - 12 Requests per day
-                  <input
-                    type="radio"
-                    checked="checked"
-                    name="apiSignupRadio"
-                    value="free"
-                  />
-                  <span className="checkmark" />
-                </label>
-                <label className="api-choice-container">
-                  5,000 Requests per Month - £17.00
-                  <input type="radio" name="apiSignupRadio" value="5000" />
-                  <span className="checkmark" />
-                </label>
-                <label className="api-choice-container">
-                10,000 Requests per Month - £32.00
-                  <input
-                    type="radio"
-                    name="apiSignupRadio"
-                    value="10000"
-                  />
-                  <span className="checkmark" />
-                </label>
+              
+              {this.state.loading?<Loader/>:<button type="submit">
+                {this.state.apiOption === "free"
+                  ? "Sign Up Now!"
+                  : "Continue To Checkout"}
+              </button>}
 
-                <label className="api-choice-container">
-                100,000 Requests per Month - £180.00
-                  <input
-                    type="radio"
-                    name="apiSignupRadio"
-                    value="100000"
-                  />
-                  <span className="checkmark" />
-                </label>
-
-                <label className="api-choice-container">
-                500,000 Requests per Month - £700.00
-                  <input
-                    type="radio"
-                    name="apiSignupRadio"
-                    value="500000"
-                  />
-                  <span className="checkmark" />
-                </label>
-
-                <label className="api-choice-container">
-                1,000,000 Requests per Month - £950.00
-                  <input
-                    type="radio"
-                    name="apiSignupRadio"
-                    value="1000000"
-                  />
-                  <span className="checkmark" />
-                </label>
-
-                <label className="api-choice-container">
-                5,000,000 Requests per Month - £3000.00
-                  <input
-                    type="radio"
-                    name="apiSignupRadio"
-                    value="5000000"
-                  />
-                  <span className="checkmark" />
-                </label>
-
-                <label className="api-choice-container">
-                  10,000,000 Requests per Month - £4500.00
-                  <input type="radio" name="apiSignupRadio" value="10000000" />
-                  <span className="checkmark" />
-                </label>
-              </fieldset>
-              <input type="hidden" name="signupdateday" id="signupdateday"/>
-              <input type="hidden" name="signupdatemonth" id="signupdatemonth"/>
-              <input type="hidden" name="signupdateyear" id="signupdateyear"/>
-              <button type="submit">Sign Up Now!</button>
+              
             </form>
             <div className="whysignup">Why Sign up?</div>
           </div>
