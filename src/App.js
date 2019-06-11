@@ -59,6 +59,12 @@ class App extends Component {
     }
   };
 
+updateUser=(user)=>{
+  this.setState({
+    user,
+  })
+}
+
   logUserOut = () => {
     localStorage.removeItem("userToken");
     this.setState({
@@ -151,7 +157,7 @@ class App extends Component {
             path="/members"
             render={() =>
               this.state.user && this.state.user.name ? (
-                <Members user={this.state.user} />
+                <Members user={this.state.user} updateUser={this.updateUser}/>
               ) : (
                 <Redirect to="/" />
               )
