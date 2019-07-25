@@ -1,12 +1,8 @@
 import React from "react";
-import Header from "./Header";
-import Nav from "./Nav";
 
 const ErrorPage = () => {
   return (
     <div>
-      <Header />
-      <Nav value={"en"} />
       <div className="blurb shadow">
       <h3>Error Code 404: Page not found</h3>
       

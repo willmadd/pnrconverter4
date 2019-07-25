@@ -4,7 +4,7 @@ import Translate from '../translations/Translate'
 const Blurb = (props) => {
 // const {language} = props;
   return (
-    <div className="blurb shadow">
+    <div className="blurb">
       <h1><Translate string={'main.blurb.title'}/></h1>
       <h3><Translate string={'main.blurb.what-is'}/></h3>
       <p><Translate string={'main.blurb.1'}/></p>

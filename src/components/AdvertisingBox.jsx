@@ -21,13 +21,13 @@ class AdvertisingBox extends Component {
     let { number } = this.state;
     return (
       <div className="advertisingBox" key={number} id={String(number)}>
-        {/* <AdSense.Google
+        <AdSense.Google
           key={number}
           client="ca-pub-2303157713889417"
           slot="8744366555"
           style={{ width: "728px", height: "90px", display: "inline-block" }}
           format=""
-        /> */}
+        />
 
       </div>
     );

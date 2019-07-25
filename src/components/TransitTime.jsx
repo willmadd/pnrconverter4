@@ -1,5 +1,4 @@
 import translateFunc from "../translations/TranslateFunction";
-import * as functions from "../controllers/jsfunctions";
 
 import React, { Component } from "react";
 

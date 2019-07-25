@@ -1,45 +1,40 @@
-import * as functions from "../controllers/jsfunctions";
-
 import translateFunc from "../translations/TranslateFunction";
 import Names from "./Names";
 import React, { Component } from "react";
 
 class ResultsTable extends Component {
+  state = {
+    tableStyle: {
+      fontFamily: "ralewayregular"
+    }
+  };
 
-state={
-  tableStyle:{
-    fontFamily:"ralewayregular",
+  componentDidMount() {
+    this.changeFont();
   }
-}
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.options.systemFonts !== prevProps.options.systemFonts)
+      this.changeFont();
+  }
 
-componentDidMount(){
-  this.changeFont();
-}
-componentDidUpdate(prevProps, prevState){
-  if (this.props.options.systemFonts !== prevProps.options.systemFonts)
-  this.changeFont();
-}
-
-
-
-changeFont = () =>{
-  const {systemFonts} = this.props.options;
- if(systemFonts){
-  const divStyle = {
-    fontFamily: "Arial"
+  changeFont = () => {
+    const { systemFonts } = this.props.options;
+    if (systemFonts) {
+      const divStyle = {
+        fontFamily: "Arial"
+      };
+      this.setState({
+        tableStyle: divStyle
+      });
+    } else {
+      const divStyle = {
+        fontFamily: "ralewayregular"
+      };
+      this.setState({
+        tableStyle: divStyle
+      });
+    }
   };
-   this.setState({
-    tableStyle:divStyle
-   })
- }else{
-  const divStyle = {
-    fontFamily:"ralewayregular",
-  };
-   this.setState({
-    tableStyle:divStyle
-   })
- }
-}
 
   selectText = containerid => {
     let range;
@@ -57,7 +52,7 @@ changeFont = () =>{
   };
 
   render() {
-    const { results, options, value, names, laravelResults } = this.props;
+    const { options, value, names, laravelResults } = this.props;
 
     const {
       airlineName,
@@ -67,10 +62,12 @@ changeFont = () =>{
       twelveClock,
       logo,
       transit,
-      operatedBy
+      operatedBy,
+      aircraftType,
+      tableNotes
     } = options;
 
-let {tableStyle} = this.state;
+    let { tableStyle } = this.state;
 
     return (
       <div>
@@ -81,201 +78,236 @@ let {tableStyle} = this.state;
           {translateFunc(value, "message.doubleclick")}
         </div>
 
-        <div className="resultsbox margin-table shadow no-margin">
-        <div id="restable" style={tableStyle}>
-        {names[0] && <Names names={names}/>}
-          <table>
-            <thead>
-              <tr>
-                {logo && <th />}
-                <th>{`${translateFunc(value, "table.date")}`}</th>
-                {airlineName && (
-                  <th>{`${translateFunc(value, "table.airline")}`}</th>
-                )}
+        <div className="resultsbox margin-table no-margin">
+          <div id="restable" style={tableStyle}>
+            {names[0] && <Names names={names} />}
+            <table>
+              <thead>
+                <tr>
+                  {logo && <th />}
+                  <th>{`${translateFunc(value, "table.date")}`}</th>
+                  {airlineName && (
+                    <th>{`${translateFunc(value, "table.airline")}`}</th>
+                  )}
 
-                <th>{`${translateFunc(value, "table.flight-no")}`}</th>
-                {operatedBy && (
-                  <th>{`${translateFunc(value, "table.operated-by")}`}</th>
-                )}
-                {cabinradio === "cabin" && (
-                  <th>{`${translateFunc(value, "nav.cabin")}`}</th>
-                )}
+                  <th>{`${translateFunc(value, "table.flight-no")}`}</th>
+                  {operatedBy && (
+                    <th>{`${translateFunc(value, "table.operated-by")}`}</th>
+                  )}
+                  {cabinradio === "cabin" && (
+                    <th>{`${translateFunc(value, "nav.cabin")}`}</th>
+                  )}
 
-                <th>{`${translateFunc(value, "flight.depart")}`}</th>
-                <th>{`${translateFunc(value, "flight.from")}`}</th>
-                <th>{`${translateFunc(value, "flight.arrive")}`}</th>
-                <th>{`${translateFunc(value, "flight.at")}`}</th>
-                {duration && (
-                  <th>{`${translateFunc(value, "table.duration")}`}</th>
-                )}
-                {distanceradio !== "off" && (
-                  <th>{`${translateFunc(value, "table.distance")}`}</th>
-                )}
+                  <th>{`${translateFunc(value, "flight.depart")}`}</th>
+                  <th>{`${translateFunc(value, "flight.from")}`}</th>
+                  <th>{`${translateFunc(value, "flight.arrive")}`}</th>
+                  <th>{`${translateFunc(value, "flight.at")}`}</th>
+                  {duration && (
+                    <th>{`${translateFunc(value, "table.duration")}`}</th>
+                  )}
+                  {distanceradio !== "off" && (
+                    <th>{`${translateFunc(value, "table.distance")}`}</th>
+                  )}
 
-                {transit && (
-                  <th>{`${translateFunc(value, "table.transit")}`}</th>
-                )}
-              </tr>
-            </thead>
-            <tbody>
-              {laravelResults.map((result, index) => {
-                const { flt, dep, arr } = result;
-                const depDate = new Date(result.flt.departure.string);
-                const arrDate = new Date(result.flt.arrival.string);
+                  {transit && (
+                    <th>{`${translateFunc(value, "table.transit")}`}</th>
+                  )}
+                  {aircraftType && (
+                    <th>{`${translateFunc(value, "nav.aircraft-type")}`}</th>
+                  )}
+                  {tableNotes && (
+                    <th>{`${translateFunc(value, "table.notes")}`}</th>
+                  )}
+                </tr>
+              </thead>
+              <tbody>
+                {laravelResults.map((result, index) => {
+                  const { flt, dep, arr } = result;
+                  const depDate = new Date(result.flt.departure.string);
+                  const arrDate = new Date(result.flt.arrival.string);
 
-                const languageCode = translateFunc(
-                  value || "en",
-                  "language.code"
-                );
+                  const languageCode = translateFunc(
+                    value || "en",
+                    "language.code"
+                  );
 
-                const dateFormat = translateFunc(value || "en", "date.format");
+                  const dateFormat = translateFunc(
+                    value || "en",
+                    "date.format"
+                  );
 
-                const depDateFormatted = depDate.toLocaleString(languageCode, {
-                  weekday: dateFormat,
-                  day: "numeric",
-                  month: "short"
-                });
+                  const depDateFormatted = depDate.toLocaleString(
+                    languageCode,
+                    {
+                      weekday: dateFormat,
+                      day: "numeric",
+                      month: "short"
+                    }
+                  );
 
-                const depTimeFormatted = depDate.toLocaleString(languageCode, {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: twelveClock
-                });
+                  const depTimeFormatted = depDate.toLocaleString(
+                    languageCode,
+                    {
+                      hour: "numeric",
+                      minute: "2-digit",
+                      hour12: twelveClock
+                    }
+                  );
 
-                let depairportString;
-                if (dep.airportname.split(" ")[0] === dep.cityname) {
-                  depairportString =
-                    dep.airportname + " (" + dep.airportcode + ")";
-                } else {
-                  depairportString =
-                    dep.airportname +
-                    ", " +
-                    dep.cityname +
-                    " (" +
-                    dep.airportcode +
-                    ")";
-                }
+                  let depairportString;
+                  if (dep.airportname.split(" ")[0] === dep.cityname) {
+                    depairportString =
+                      dep.airportname + " (" + dep.airportcode + ")";
+                  } else {
+                    depairportString =
+                      dep.airportname +
+                      ", " +
+                      dep.cityname +
+                      " (" +
+                      dep.airportcode +
+                      ")";
+                  }
 
-                let arrairportString;
-                if (arr.airportname.split(" ")[0] === arr.cityname) {
-                  arrairportString =
-                    arr.airportname + " (" + arr.airportcode + ")";
-                } else {
-                  arrairportString =
-                    arr.airportname +
-                    ", " +
-                    arr.cityname +
-                    " (" +
-                    arr.airportcode +
-                    ")";
-                }
+                  let arrairportString;
+                  if (arr.airportname.split(" ")[0] === arr.cityname) {
+                    arrairportString =
+                      arr.airportname + " (" + arr.airportcode + ")";
+                  } else {
+                    arrairportString =
+                      arr.airportname +
+                      ", " +
+                      arr.cityname +
+                      " (" +
+                      arr.airportcode +
+                      ")";
+                  }
 
-                const arrTimeFormatted = arrDate.toLocaleString(languageCode, {
-                  hour: "numeric",
-                  minute: "2-digit",
-                  hour12: twelveClock
-                });
+                  const arrTimeFormatted = arrDate.toLocaleString(
+                    languageCode,
+                    {
+                      hour: "numeric",
+                      minute: "2-digit",
+                      hour12: twelveClock
+                    }
+                  );
 
-                const arrDateFormatted = arrDate.toLocaleString(languageCode, {
-                  day: "numeric",
-                  month: "short"
-                });
+                  const arrDateFormatted = arrDate.toLocaleString(
+                    languageCode,
+                    {
+                      day: "numeric",
+                      month: "short"
+                    }
+                  );
 
-                let nextDay = "";
+                  let nextDay = "";
 
-                if (
-                  arrDateFormatted !==
-                  depDate.toLocaleString(languageCode, {
-                    day: "numeric",
-                    month: "short"
-                  })
-                ) {
-                  nextDay = " (on the " + arrDateFormatted + ")";
-                }
+                  if (
+                    arrDateFormatted !==
+                    depDate.toLocaleString(languageCode, {
+                      day: "numeric",
+                      month: "short"
+                    })
+                  ) {
+                    nextDay = " (on the " + arrDateFormatted + ")";
+                  }
 
-                // let transitTime;
-                // if (results[index + 1]) {
-                //   transitTime = functions.daysBetween(
-                //     arrDate,
-                //     new Date(results[index + 1].data.dep.dateTime.string)
-                //   );
-                // } else {
-                //   transitTime = null;
-                // }
-                let transitTime;
-                if (result.flt.transit_time.minutes || result.flt.transit_time.hours){
-                  transitTime = result.flt.transit_time;
-                }else{
-                  transitTime = null;
-                }
+                  // let transitTime;
+                  // if (results[index + 1]) {
+                  //   transitTime = functions.daysBetween(
+                  //     arrDate,
+                  //     new Date(results[index + 1].data.dep.dateTime.string)
+                  //   );
+                  // } else {
+                  //   transitTime = null;
+                  // }
+                  let transitTime;
+                  if (
+                    result.flt.transit_time.minutes ||
+                    result.flt.transit_time.hours
+                  ) {
+                    transitTime = result.flt.transit_time;
+                  } else {
+                    transitTime = null;
+                  }
 
-                return (
-                  <tr key={`${arrairportString}${arrTimeFormatted}`}>
-                    {logo && (
+                  return (
+                    <tr key={`${arrairportString}${arrTimeFormatted}`}>
+                      {logo && (
+                        <td>
+                          <img
+                            src={`/images/airlines/png/150/${flt.iatacode.toLowerCase()}.png`}
+                            alt=""
+                          />
+                        </td>
+                      )}
+                      <td>{depDateFormatted}</td>
+
+                      {airlineName && <td>{flt.name}</td>}
+
                       <td>
-                        <img
-                          src={`/images/airlines/png/150/${flt.iatacode.toLowerCase()}.png`}
-                          alt=""
-                        />
+                        {!airlineName && flt.iatacode}
+                        {flt.flightNo} {cabinradio === "className" && flt.class}
                       </td>
-                    )}
-                    <td>{depDateFormatted}</td>
 
-                    {airlineName && <td>{flt.name}</td>}
-
-                    <td>
-                      {!airlineName && flt.iatacode}
-                      {flt.flightNo} {cabinradio === "className" && flt.class}
-                    </td>
-
-                    {operatedBy && <td  className="operated-by">{flt.operatedBy.toLowerCase()}</td>}
-                    {cabinradio === "cabin" && <td>{flt.cabin}</td>}
-                    <td>{depTimeFormatted}</td>
-                    <td>{depairportString}</td>
-                    <td>
-                      {arrTimeFormatted} {nextDay}
-                    </td>
-                    <td>{arrairportString}</td>
-                    {duration && (
-                      <td>{`${flt.duration.hours}${translateFunc(
-                        value,
-                        "time.hours"
-                      )} ${flt.duration.minutes}${translateFunc(
-                        value,
-                        "time.minutes"
-                      )}`}</td>
-                    )}
-                    {distanceradio === "km" ? (
-                      <td>{`${flt.distance.km} ${translateFunc(
-                        value,
-                        "distance.km"
-                      )}`}</td>
-                    ) : (
-                      distanceradio === "miles" && (
-                        <td>{`${flt.distance.miles} ${translateFunc(
-                          value,
-                          "distance.miles"
-                        )}`}</td>
-                      )
-                    )}
-                    {transit && transitTime && !transitTime.days ? (
+                      {operatedBy && (
+                        <td className="operated-by">
+                          {flt.operated_by.toLowerCase()}
+                        </td>
+                      )}
+                      {cabinradio === "cabin" && <td>{flt.cabin}</td>}
+                      <td>{depTimeFormatted}</td>
+                      <td>{depairportString}</td>
                       <td>
-                        {`${transitTime.hours}${translateFunc(
+                        {arrTimeFormatted} {nextDay}
+                      </td>
+                      <td>{arrairportString}</td>
+                      {duration && (
+                        <td>{`${flt.duration.hours}${translateFunc(
                           value,
                           "time.hours"
-                        )} ${transitTime.minutes}${translateFunc(
+                        )} ${flt.duration.minutes}${translateFunc(
                           value,
                           "time.minutes"
-                        )}`}
-                      </td>
-                    ) : (
-                      <td>-</td>
-                    )}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                        )}`}</td>
+                      )}
+                      {distanceradio === "km" ? (
+                        <td>{`${flt.distance.km} ${translateFunc(
+                          value,
+                          "distance.km"
+                        )}`}</td>
+                      ) : (
+                        distanceradio === "miles" && (
+                          <td>{`${flt.distance.miles} ${translateFunc(
+                            value,
+                            "distance.miles"
+                          )}`}</td>
+                        )
+                      )}
+                      {transit ? transitTime && !transitTime.days ? (
+                        <td>
+                          {`${transitTime.hours}${translateFunc(
+                            value,
+                            "time.hours"
+                          )} ${transitTime.minutes}${translateFunc(
+                            value,
+                            "time.minutes"
+                          )}`}
+                        </td>
+                      ) : (
+                        <td>-</td>
+                      ):""}
+
+                  {aircraftType && flt.aircraft ? (
+                    <td>{flt.aircraft}</td>
+                  ): aircraftType && <td>-</td>}
+                                    {tableNotes && (
+                    <td>{" "}</td>
+                  )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

@@ -13,23 +13,29 @@ import { LanguageContext } from "./context/language-context";
 import Article from "./components/Article";
 import Terms from "./components/Terms";
 import Privacy from "./components/Privacy";
-import AboutUs from "./components/AboutUs";
-import CarbonOffset from "./components/CarbonOffset";
+import AboutUs from "./components/pages/AboutUs";
+import CarbonOffset from "./components/pages/CarbonOffset";
 import Login from "./components/Login";
 import SignUpPage from "./components/auth/SignUpPage";
 import MailSent from "./components/auth/MailSent";
-import axios from "axios";
 import SignUpActivation from "./components/auth/SignUpActivation";
 import Members from "./components/members/members";
 import Header from "./components/Header";
 import Nav from "./components/Nav";
+import * as api from "./db/api";
+import PasswordReset from "./components/auth/PasswordReset";
+import Loader from "./components/Loader";
+import PasswordResetStart from "./components/auth/PasswordResetStart";
+import StripePaymentForm from "./components/stripe/StripePaymentForm";
+// import { loadReCaptcha } from 'react-recaptcha-v3'
 
 class App extends Component {
   state = {
     language: "en",
     user: {},
     token: "",
-    error: ""
+    error: "",
+    loading: true
   };
 
   changeLanguage = language => {
@@ -41,16 +47,21 @@ class App extends Component {
   getUserData = () => {
     let token = localStorage.getItem("userToken");
     if (token) {
-      axios
-        .get(`http://localhost:8000/api/auth/user`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
+      return api.getUserData();
+    } else {
+      return {};
+    }
+  };
+
+  updateUser = user => {
+    let token = localStorage.getItem("userToken");
+    if (token) {
+      this.getUserData()
         .then(res => {
           console.log(res.data);
           this.setState({
-            user: res.data
+            user: res.data,
+            loading: false
           });
         })
         .catch(error => {
@@ -58,12 +69,6 @@ class App extends Component {
         });
     }
   };
-
-updateUser=(user)=>{
-  this.setState({
-    user,
-  })
-}
 
   logUserOut = () => {
     localStorage.removeItem("userToken");
@@ -73,12 +78,42 @@ updateUser=(user)=>{
   };
 
   componentDidMount = () => {
-    this.getUserData();
+    let token = localStorage.getItem("userToken");
+    if (token) {
+      this.getUserData()
+        .then(res => {
+          this.setState({
+            user: res.data,
+            loading: false
+          });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
+      this.setState({
+        loading: false
+      });
+    }
   };
 
   setTokenInStorage = token => {
     localStorage.setItem("userToken", token);
-    this.getUserData();
+    return this.getUserData();
+    // .then(res => {
+    //   this.setState({
+    //     user: res.data
+    //   });
+    // })
+    // .catch(error => {
+    //   console.log(error);
+    // });
+  };
+
+  setUserInState = user => {
+    this.setState({
+      user,
+    });
   };
 
   render() {
@@ -89,6 +124,8 @@ updateUser=(user)=>{
           user={this.state.user}
           setTokenInStorage={this.setTokenInStorage}
           logUserOut={this.logUserOut}
+          language={this.state.language}
+          setUserInState={this.setUserInState}
         />
         <Nav value={this.state.language} />
         <Switch>
@@ -104,6 +141,7 @@ updateUser=(user)=>{
                 language={this.state.language}
                 user={this.state.user}
                 logUserOut={this.logUserOut}
+                // setUserInState={this.setUserInState}
               />
             )}
           />
@@ -150,27 +188,56 @@ updateUser=(user)=>{
           <Route exact path="/carbon-offset" component={CarbonOffset} />
           <Route exact path="/signup" component={SignUpPage} />
           <Route exact path="/mailsent" component={MailSent} />
-          {/* <Route exact path="/members" component={members} /> */}
+          <Route exact path="/passwordreset" component={PasswordResetStart} />
 
           <Route
             exact
-            path="/members"
-            render={() =>
-              this.state.user && this.state.user.name ? (
-                <Members user={this.state.user} updateUser={this.updateUser}/>
-              ) : (
-                <Redirect to="/" />
-              )
-            }
+            path="/spayment"
+            render={routerProps => (
+              <StripePaymentForm
+                updateUser={this.updateUser}
+                {...routerProps}
+              />
+            )}
           />
 
-          {/* <Route  component={SignUpActivation} setTokenInStorage={this.setTokenInStorage}/> */}
+          {this.state.loading ? (
+            <Loader />
+          ) : (
+            <Route
+              exact
+              path="/members"
+              render={() =>
+                this.state.user && this.state.user.name ? (
+                  <Members
+                    user={this.state.user}
+                    updateUser={this.updateUser}
+                    logUserOut={this.logUserOut}
+                  />
+                ) : (
+                  <Redirect to="/" />
+                )
+              }
+            />
+          )}
 
           <Route
             exact
             path="/signup/activate/:token"
             render={routerProps => (
               <SignUpActivation
+                {...routerProps}
+                setTokenInStorage={this.setTokenInStorage}
+                setUserInState={this.setUserInState}
+              />
+            )}
+          />
+
+          <Route
+            exact
+            path="/passwordreset/:token"
+            render={routerProps => (
+              <PasswordReset
                 {...routerProps}
                 setTokenInStorage={this.setTokenInStorage}
               />

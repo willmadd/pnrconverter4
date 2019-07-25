@@ -1,3 +1,90 @@
+.sign-up-page {
+  .loadcontainer {
+    margin-top: 40px;
+    width: 100%;
+    .bar {
+      width: 100%;
+    }
+  }
+  .password-warning{
+    font-size: 14px;
+    margin:0;
+    padding:0;
+  }
+  .whysignup{
+    border: 2px solid $brand-primary;
+    padding:20px;
+    h2{
+      margin-top:0;
+    }
+    h4{
+      text-decoration: none;
+      margin:8px;
+    }
+    .why-sign-up-list{
+    }
+    ul{
+      border-top: 2px solid $brand-red;
+      padding:12px 0;
+      li{
+        list-style: none;
+        padding:0;
+        margin:0;
+      }
+    }
+    .price-list{
+
+    }
+  }
+}
+
+.signup-activation-page{
+  flex:1;
+  button.button{
+    width:100%;
+    box-sizing: border-box;
+    margin:20px 0 0 0;
+  }
+  .img-stamps{
+    background:red;
+    background: url(/images/stamps.svg) no-repeat;
+    // height:100%;
+    // width:10%;
+    justify-self:  stretch;
+    background-size: cover;
+    background-position: center;
+  }
+  .sign-up-activation-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap:20px;
+    height:60%;
+    form{
+      border: 2px solid $brand-red;
+      padding:20px;
+      h3{
+        display:none;
+      }
+      .models{
+        display: flex;
+        flex-direction: column;
+        label{
+          display: flex;
+          flex-direction: column;
+        }
+        input{
+          width: 100%;
+    box-sizing: border-box;
+    height: 36px;
+    padding: 0 6px;
+    font-size: 20px;
+    font-family: "Poppins", sans-serif;
+        }
+      }
+    }
+  }
+}
+
 .sign-up-page,
 .signup-activation-page,
 .members {
@@ -7,40 +94,44 @@
   .form-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap:10px;
-    form{
-        display: flex;
-        flex-direction: column;
-        border:2px solid $brand-secondary;
-        padding:20px;
-        label{
-            flex:1;
-            display: inline-grid;
-            margin-top:15px;
-            font-size:20px;
+    grid-gap: 10px;
+    form {
+      display: flex;
+      flex-direction: column;
+      border: 2px solid $brand-secondary;
+      padding: 20px;
+      label {
+        flex: 1;
+        display: inline-grid;
+        margin-top: 15px;
+        font-size: 20px;
+      }
+      input {
+        box-sizing: border-box;
+        height: 36px;
+        padding: 0 6px;
+        font-size: 20px;
+        font-family: $font-regular;
+      }
+      button {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0;
+        background-color: $brand-secondary;
+        padding: 10px;
+        border: none;
+        outline: none;
+        font-family: $font-regular;
+        color: white;
+        font-size: 16px;
+        line-height: 20px;
+        margin-top: 30px;
+        cursor: pointer;
+        &[disabled]{
+          background-color: $grey;
+          cursor: not-allowed;
         }
-        input{
-            box-sizing: border-box;
-            height:36px;
-            padding:0 6px;
-            font-size:20px;
-            font-family:$font-regular;
-        }
-        button{
-            width: 100%;
-            box-sizing: border-box;
-            border-radius: 0;
-            background-color: $brand-secondary;
-            padding:10px;
-            border: none;
-            outline:none;
-            font-family:$font-regular;
-            color:white;
-            font-size:16px;
-            line-height:20px;
-            margin-top:30px;
-            cursor: pointer;
-        }
+      }
     }
   }
   .api-choice-container {
@@ -55,14 +146,14 @@
     -ms-user-select: none;
     user-select: none;
   }
-  
+
   /* Hide the browser's default radio button */
   .api-choice-container input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
   }
-  
+
   /* Create a custom radio button */
   .checkmark {
     position: absolute;
@@ -73,36 +164,40 @@
     background-color: #eee;
     border-radius: 50%;
   }
-  
+
   /* On mouse-over, add a grey background color */
   .api-choice-container:hover input ~ .checkmark {
     background-color: #ccc;
   }
-  
+
   /* When the radio button is checked, add a blue background */
   .api-choice-container input:checked ~ .checkmark {
-    background-color: #2196F3;
+    background-color: #2196f3;
   }
-  
+
   /* Create the indicator (the dot/circle - hidden when not checked) */
   .checkmark:after {
     content: "";
     position: absolute;
     display: none;
   }
-  
+
   /* Show the indicator (dot/circle) when checked */
   .api-choice-container input:checked ~ .checkmark:after {
     display: block;
   }
-  
+
   /* Style the indicator (dot/circle) */
   .api-choice-container .checkmark:after {
-       top: 9px;
-      left: 9px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: white;
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
   }
+}
+
+.mail-sent-page{
+  padding:60px;
 }

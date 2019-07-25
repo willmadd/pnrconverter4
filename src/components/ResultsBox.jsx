@@ -4,7 +4,6 @@ import ResultsTwoLinesReordered from "./ResultsTwoLinesReordered";
 import ResultsTwoLines from "./ResultsTwoLines";
 import ResultsTable from "./ResultsTable";
 import TransitTime from "./TransitTime";
-import * as functions from "../controllers/jsfunctions";
 import translateFunc from "../translations/TranslateFunction";
 
 import React, { Component } from "react";
@@ -38,7 +37,8 @@ class ResultsBox extends Component {
       twelveClock,
       logo,
       transit,
-      operatedBy
+      operatedBy,
+      aircraftType
     } = options;
 
     return (
@@ -50,11 +50,10 @@ class ResultsBox extends Component {
           {" "}
           {translateFunc(value, "message.doubleclick")}
         </div>
-        <div className=" shadow resultsbox" id="selectable">
+        <div className="resultsbox" id="selectable">
           {names[0] && <Names names={names} />}
 
           {laravelResults.map((result, index) => {
-            console.log(laravelResults);
             const depDate = new Date(result.flt.departure.string);
             const arrDate = new Date(result.flt.arrival.string);
             let transitTime;
@@ -135,7 +134,7 @@ class ResultsBox extends Component {
                 arr.airportcode +
                 ")";
             }
-
+console.log(flt);
             return (
               <div className="row" key={`${arrairportString}${arrTimeFormatted}`}>
                 <div className="main-content">
@@ -182,7 +181,12 @@ class ResultsBox extends Component {
                             " " +
                             translateFunc(value, "distance.km")
                           : ""
-                      }`}</p>
+                      }${
+                        aircraftType&&flt.aircraft? "- " + flt.aircraft
+                          : ""
+                      }`}
+                      
+                      </p>
                       {format === "threelines" && (
                         <ResultsThreeLines
                           depairportString={depairportString}
@@ -246,15 +250,6 @@ class ResultsBox extends Component {
                     />
                   </div>
                 </div>
-                    {/* <TransitTime
-                      tt={transitTime}
-                      index={index}
-                      results={results}
-                      value={value}
-                      arrDate={arrDate}
-                      transit={transit}
-                      logo={logo}
-                    /> */}
                   
               </div>
             );

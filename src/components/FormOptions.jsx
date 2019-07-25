@@ -12,11 +12,13 @@ class FormOptions extends Component {
       operatedBy,
       duration,
       distanceradio,
-      systemFont
+      systemFont,
+      aircraftType,
+      tableNotes
     } = this.props.options;
     const { changeOptions, format, setFormat } = this.props;
     return (
-      <div className="formOptions shadow">
+      <div className="formOptions">
         <h3><Translate string={'nav.display-options'}/></h3>
         <div className="displayOption" id="showAirLineName">
           <input
@@ -156,6 +158,28 @@ class FormOptions extends Component {
           />
           <label htmlFor="operatedbyInput"><Translate string={'nav.operated-by'}/></label>
         </div>
+
+        <div className="displayOption" id="aircraftType">
+          <input
+            type="checkbox"
+            name="aircraftType"
+            id="aircraftTypeInput"
+            onChange={e => changeOptions(e)}
+            checked={aircraftType}
+          />
+          <label htmlFor="aircraftTypeInput"><Translate string={'nav.aircraft-type'}/></label>
+        </div>
+        {format === "tableoutput"&&
+        <div className="displayOption" id="tableNotes">
+          <input
+            type="checkbox"
+            name="tableNotes"
+            id="tableNotesInput"
+            onChange={e => changeOptions(e)}
+            checked={tableNotes}
+          />
+          <label htmlFor="tableNotesInput"><Translate string={'table.notes'}/></label>
+        </div>}
 
         <div id="resultsFormat">
           <h3><Translate string={'nav.results-format'}/></h3>

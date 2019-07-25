@@ -1,0 +1,23 @@
+.icon-logout {
+  &:after {
+    margin-left: 10px;
+    background-image: url(/images/icons/logout.svg);
+    content: "";
+    background-size: cover;
+    display: block;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.icon-members {
+  &:after {
+    margin-left: 10px;
+    background-image: url(/images/icons/settings.svg);
+    content: "";
+    background-size: cover;
+    display: block;
+    width: 12px;
+    height: 12px;
+  }
+}

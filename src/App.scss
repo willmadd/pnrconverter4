@@ -33,12 +33,21 @@
 @import './components/Blog.scss';
 @import './components/Adblock.scss';
 @import './components/Banner.scss';
-@import './components/AboutUs.scss';
+@import './components/pages/AboutUs';
 @import './components/ApiIntroduction.scss';
 @import './components/HowTo.scss';
 @import './components/Article.scss';
 @import './components/auth/SignUpWindow';
 @import './components/auth/SignUpPage';
+@import './components/members/Members';
+@import './components/ui/Icons';
+@import './components/stripe/Stripe.scss';
+@import './components/auth/passwordReset';
+@import './components/ui/formElements';
+
+body, html, #root{
+  height:100%;
+}
 
 .body{
   width: 100%;
@@ -51,20 +60,10 @@
   box-shadow: -1px 10px 48px 0px rgba(0,0,0,0.75);
   // background-size: cover;
 }
-
-.body::after{
-  background-image: url(/images/pnrconverterbackground.svg);
-  background-size:cover;
-  content: "";
-  opacity: 0.4;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: -1;
-  filter: blur(4px);
-}
+ #root{
+  display: flex;
+  flex-direction: column;
+ }
 
 .container{
   width:96%;

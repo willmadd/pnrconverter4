@@ -34,6 +34,9 @@ header {
   align-items: baseline;
   display: none;
   }
+  button.button.logout{
+    background-color: $brand-secondary;
+  }
   #headerlogo {
     max-height: 40px;
   }

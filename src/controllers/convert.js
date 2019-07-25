@@ -1,4 +1,4 @@
-import * as api from "../db/sqlqueries";
+import * as api from "../db/api";
 
 
 export const laravelConvertItinerary = (flightInput, options, format) => {

@@ -1,0 +1,27 @@
+fieldset.currency {
+  height: 40px;
+  margin-bottom: 10px;
+  input + label {
+    padding: 10px 20px;
+    margin: 0px;
+    border: 1px solid $grey;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+    &:hover {
+      border: 2px solid $brand-red;
+    }
+  }
+  input:checked + label {
+    border: 2px solid $brand-primary;
+  }
+
+  .currency-choice {
+    position: relative;
+  }
+  .currency-choice input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+}

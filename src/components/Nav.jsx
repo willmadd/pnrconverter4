@@ -1,15 +1,9 @@
 import React, { Component } from "react";
 import Translate from "../translations/Translate";
 import { Link } from "react-router-dom";
-import SignUp from "./auth/SignUpBox";
 
 
 class Nav extends Component {
-
-
-
-
-
   render() {
     return (
       <nav role="navigation">
@@ -23,7 +17,7 @@ class Nav extends Component {
 
           <ul id="menu">
             <li className="navmenuitem">
-              <Link to="/">
+              <Link to={this.props.value==="en"?"/":`/intl/${this.props.value}`}>
                 <img
                   src="/images/icons/homeicon.svg"
                   height="18"
@@ -190,6 +184,17 @@ class Nav extends Component {
                       alt="french language"
                     />
                     Norsk
+                  </li>
+                </Link>
+                <Link to="/intl/tr">
+                  <li>
+                    <img
+                      className="flag"
+                      src="/images/languages/tr.svg"
+                      width="26"
+                      alt="Turkish language"
+                    />
+                    Türk
                   </li>
                 </Link>
               </ul>

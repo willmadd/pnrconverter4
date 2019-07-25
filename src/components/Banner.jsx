@@ -4,7 +4,7 @@ import { Link} from "react-router-dom";
 const Banner = () => {
   return (
     <div className="banner">
-      Welcome to new PNR Converter Version 4. See what's new <Link to ={`/articles/whats-new-in-pnr-converter`} >Here!</Link> We would love to hear what you think, <Link to ={`/make-a-suggestion`} >Get in Touch</Link> and let us know
+      26 June 2019 - New in PNR Converter. Table can now display a blank "notes" field, and <Link to="/intl/tr">Turkish language</Link> now available
     </div>
   );
 };

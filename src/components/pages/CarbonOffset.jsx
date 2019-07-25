@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import Nav from './Nav';
-import Header from './Header';
 import { Helmet } from "react-helmet";
 
 class CarbonOffset extends Component {
   render() {
     return (
       <div>
-        <Header/>
-        <Nav value={"en"}/>
         <Helmet>
         <title>{`Carbon Offsetting | Easy PNR Converter`}</title>
       </Helmet>

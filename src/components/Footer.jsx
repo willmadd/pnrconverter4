@@ -24,9 +24,9 @@ const Footer = () => {
           />
         </a>
         <Link to ={`/make-a-suggestion`} >
-        <img src="./images/icons/mail.png" alt="mail" height="36" width="36" />
+        <img src="/images/icons/mail.png" alt="mail" height="36" width="36" />
       </Link>
-        <img src="./images/icons/rss.png" alt="rss" height="36" width="36" />
+        <img src="/images/icons/rss.png" alt="rss" height="36" width="36" />
       </div>
       <ul className="footer-lang">
       {langs.map(lang=>{

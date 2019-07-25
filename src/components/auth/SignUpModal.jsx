@@ -1,8 +1,21 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom'
 
 class SignUpModal extends Component {
+  state={
+    redirect:false,
+  }
+
+redirectToSignUp=()=>{
+  this.setState({
+    redirect:true,
+  }, ()=>this.props.activateSignUp())
+}
+
   render() {
+    if(this.state.redirect) {
+      return <Redirect to="/signup"/>
+    }
     return (
       <div>
         <h3 className="underline">New Customers</h3>
@@ -13,7 +26,7 @@ class SignUpModal extends Component {
           <li>Get Access to the PNR Converter API</li>
           <li>Customise quotes with additional options</li>
         </ul>
-        <Link to="/signup">Sign Me Up!</Link>
+      <button onClick={()=>this.redirectToSignUp()}>Sign Me Up</button>
       </div>
     );
   }

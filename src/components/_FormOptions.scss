@@ -65,13 +65,9 @@ fieldset{
 
 
 .displayOption input[type="checkbox"]:checked + label,.displayOption input[type="radio"]:checked + label{
-  // margin:3px;
-  // border: 1px solid white;
-  // padding: 5px;
   width:100%;
   margin-left: auto;
   margin-right: auto;
-
   background-color: $brand-red;
   font-size:12px;
   margin-top:3px;
@@ -94,13 +90,10 @@ input[type="checkbox"], input[type="radio"] {
 
 //unselected display options
 .displayOption input[type="checkbox"] + label,.displayOption input[type="radio"] + label{
-  // border: 1px solid rgb(252, 245, 245);
   padding: 5px;
   width:100%;
-
   margin-left: auto;
   margin-right: auto;
-  // background-color: #37392E;
   font-size:12px;
   margin-top:3px;
   cursor: pointer;
@@ -120,7 +113,6 @@ input[type="checkbox"], input[type="radio"] {
 .fieldset input[type="radio"] + label{
   border: 3px solid $brand-red;
   padding: 5px;
-  // border-radius: 10px;
   margin:5px;
   cursor: pointer;
   background-color: $unselected;
@@ -133,7 +125,6 @@ input[type="checkbox"], input[type="radio"] {
 }
 
 .multioptionscontainer{
-// border: 1px solid white;
 padding: 5px 5px 10px 5px;
 box-sizing: border-box;
 width:100%;
@@ -141,19 +132,14 @@ margin-left: auto;
 margin-right: auto;
 font-family: 'Open Sans', sans-serif;
 border-radius:5px;
-// background-color: #37392E;
 font-size:12px;
 margin-top:3px;
 cursor: pointer;
 display:block;
 text-align: center;
-/* clear: both; */
 }
 
 .multioptionsbreak{
   margin-bottom:10px;
 }
 
-#system-font{
-  // margin-top:40px;
-}

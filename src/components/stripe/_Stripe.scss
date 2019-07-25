@@ -1,0 +1,85 @@
+.stripeSignup {
+  // background: lightblue;
+  border: 2px solid $brand-primary;
+  display: flex;
+  flex-direction: column;
+  label{
+    height:42px;
+    // border-right:0;
+    display: flex;
+    flex-direction: column;
+    padding:16px;
+  }
+
+  input{
+    color: #BEBEBE;
+    border:0;
+    font-size:24px;
+    padding-left:16px;
+    border-bottom: 1px solid grey;
+    outline: none;
+    &#stripe-name{
+      width:100%;
+      padding:0;
+      margin:25px 0;
+      padding:20px;
+      border:2px solid lightgray;
+      box-sizing: border-box;
+      font-size:14px;
+      color:black;
+    }
+  }
+  main{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+  }
+  header{
+    img{
+      height:50px;
+    }
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+  }
+  h1, h2, h5, h3, p {
+    margin: 0;
+  }
+  .summary{
+    border:2px solid $brand-secondary;
+    margin: 0 10px 10px 0;
+    padding:20px;
+    h2{
+      margin-bottom:24px;
+    }
+  }
+  .loadcontainer{
+margin-top:25px;
+.bar{
+  width:100%;
+}
+  }
+  .cc-form{
+    border:2px solid $brand-red;
+    margin: 0 0 10px 10px;
+    padding:20px;
+  }
+  .card-element{
+    padding:20px;
+    border:2px solid lightgray;
+  }
+  button.button{
+    width:100%;
+    box-sizing: border-box;
+    margin:25px 0 0 0;
+  }
+  .summary-content{
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-gap:15px;
+    align-items: center;
+  }
+  .grid-span{
+    grid-column: 1 / span 2;
+  }
+
+}

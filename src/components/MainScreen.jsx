@@ -31,7 +31,8 @@ class MainScreen extends Component {
       operatedBy: false,
       distanceradio: "off",
       duration: true,
-      systemFonts: false
+      systemFonts: false,
+      aircraftType: false,
     },
     input: "",
     names: "",
@@ -100,6 +101,7 @@ class MainScreen extends Component {
     } else if (!lang && this.props.language !== "en") {
       this.props.changeLanguage("en");
     }
+
   };
 
   changeOptions = event => {
@@ -144,6 +146,7 @@ class MainScreen extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const { input, options, format } = this.state;
 
     ReactGA.event({
       category: "User",
@@ -151,7 +154,6 @@ class MainScreen extends Component {
       label: this.props.language
     });
 
-    const { input, options, format } = this.state;
     this.setState(
       {
         loading: true
@@ -161,6 +163,7 @@ class MainScreen extends Component {
         let laravelProcessedData = func.laravelConvertItinerary(input, options, format)
         laravelProcessedData
           .then(res => {
+            console.log(res.data);
             if (!res.data.flightData.flights[0]) {
               this.setState({
                 error: true,

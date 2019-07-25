@@ -1,27 +1,44 @@
 import React, { Component } from "react";
-
-import axios from "axios";
+import * as api from "../../db/api";
 import SignInModal from "./SignInModal";
+import { Redirect } from 'react-router-dom'
 
 class SignUpActivation extends Component {
   state={
     user:{},
     apiOption: 'free',
+    redirect:false,
   }
 
   componentDidMount = () => {
-    console.log(this.props.match.params.token)
-    axios.get('http://localhost:8000/api/auth/signup/activate/'+this.props.match.params.token)
+    let {token} = this.props.match.params;
+    api.tokenActivate(token)
     .then(res=>{
-      console.log(res.data)
       this.setState({
         user:res.data,
+        message:`Hi ${res.data.name}, Thanks for Signing up. Your account has now been activated. Please sign in to continue!`
       })
     })
-    .catch(err=>{
-      console.log(err);
+    .catch(error=>{
+      if (error.response) {
+        switch (error.response.status) {
+          case 404:
+            this.setState({
+              message: "Could not activate you account. Your token is invalid!"
+            });
+            break;
+          default:
+            this.setState({
+              message: "There was an error activating our account!"
+            });
+        }
+      } else {
+        this.setState({
+          message:
+            "Could not connect to the server. Please check your internet connection"
+        });
+      }
     })
-    
   };
 
   handleChange = event => {
@@ -31,21 +48,31 @@ class SignUpActivation extends Component {
     });
   };
 
-
+// redirectToMembers=()=>{
+//   console.log('redirect to members activated')
+//   this.setState({
+//     redirect:true,
+//   })
+// }
 
   render() {
-    console.log('hello');
-    console.log(this.props.setTokenInStorage);
-    let {name}=this.state.user;
+    if(this.state.redirect) {
+      return  <Redirect to={{
+        pathname: '/members',
+    }}/>
+  }
     return (
-      <div>
-        <div className="blurb signup-activation-page">
-          Hi {name}, Thanks for Signing up. Your account has now been activated. Please sign in!
-          <SignInModal setTokenInStorage={this.props.setTokenInStorage}/>
 
+        <div className="blurb signup-activation-page">
+          <h1>Activate Your Account</h1>
+          <h3>{this.state.message}</h3>
+          <div className="sign-up-activation-content">
+          <SignInModal setTokenInStorage={this.props.setTokenInStorage} redirect={this.redirectToMembers} setUserInState={this.props.setUserInState}/>
+          <div className="img-stamps"></div>
+          </div>
           
           </div>
-      </div>
+
     );
   }
 }

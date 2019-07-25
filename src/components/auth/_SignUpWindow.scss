@@ -24,6 +24,22 @@ align-items: center;
     margin-left:auto;
     margin-right:auto;
     margin-top:160px;
+
+    .signup-heading{
+        width:100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding:0 10px;
+        box-sizing: border-box;
+        .close{
+            cursor: pointer;
+            width:30px;
+        }
+        h2{
+            margin-top:10px;
+        }
+    }
 }
 
 .sign-up-container{
@@ -37,7 +53,7 @@ align-items: center;
     flex:1;
     align-content: stretch;
     padding:20px;
-    h2, h3, h6, label, li, p{
+    h2, h3:not(.warning), h6, label, li, p{
         color:#444444;
     }
     p{
@@ -50,10 +66,13 @@ align-items: center;
         border-bottom:1px solid darkgray;
         padding-bottom:10px;
     }
+    h6.password-reset{
+        cursor: pointer;
+    }
 }
 
 .signin{
-    border: 2px solid $brand-primary;
+    border: 2px solid $brand-red;
     form{
         
         font-family:$font-regular;
@@ -113,5 +132,17 @@ align-items: center;
                 content: "• "
             }
         }
+    }
+    button{
+        width:100%;
+        background-color: $brand-secondary;
+        color:$white;
+        padding:10px;
+        font-family:$font-regular;
+        font-size: 16px;
+        line-height: 20px;
+        border:0;
+        margin-top:10px;
+        cursor: pointer;
     }
 }

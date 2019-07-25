@@ -1,12 +1,9 @@
 import React from "react";
-import Header from "./Header";
-import Nav from "./Nav";
+
 
 const AboutUs = () => {
   return (
     <div>
-      <Header />
-      <Nav value={"en"} />
 
       <div className="blurb shadow about-us">
         <img src="/images/aboutus.jpg" alt="" />
